@@ -1,0 +1,36 @@
+{
+    "name": "Backchannel",
+    "description": "Backchannel library for telemetry and PID tuning",
+    "keywords": "Backchannel ESPNOW receiver",
+    "authors": {
+        "name": "Martin Budden",
+        "url": "https://github.com/martinbudden"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/martinbudden/Library-Backchannel.git"
+    },
+    "dependencies": [
+        {
+            "name": "martinbudden/VectorQuaternionMatrix",
+            "version": "^0.3.0"
+        },
+        {
+            "name": "martinbudden/TaskBase",
+            "version": "^0.0.3"
+        },
+        {
+            "name": "martinbudden/StabilizedVehicle",
+            "version": "^0.3.1"
+        },
+        {
+            "name": "martinbudden/Receiver",
+            "version": "^0.4.1"
+        }
+    ],
+    "license": "MIT",
+    "version": "0.0.1",
+    "frameworks": "*",
+    "platforms": "*",
+    "headers": ["BackchannelBase.h", "BackchannelStabilizedVehicle.h", "BackchannelTask.h", "BackchannelESPNOW.h", "CommandPacket.h"]
+}

@@ -1,0 +1,18 @@
+############################################
+# Syntax Coloring Map for Backchannel
+############################################
+
+#######################################
+# Data types (KEYWORD1)
+#######################################
+
+TD_Reserved             KEYWORD1
+TD_Minimal              KEYWORD1
+TD_TaskIntervals        KEYWORD1
+TD_AHRS                 KEYWORD1
+
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
