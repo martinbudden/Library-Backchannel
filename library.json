@@ -12,24 +12,20 @@
     },
     "dependencies": [
         {
-            "name": "martinbudden/VectorQuaternionMatrix",
-            "version": "^0.3.0"
-        },
-        {
             "name": "martinbudden/TaskBase",
             "version": "^0.0.3"
         },
         {
             "name": "martinbudden/StabilizedVehicle",
-            "version": "^0.3.1"
+            "version": "^0.3.3"
         },
         {
             "name": "martinbudden/Receiver",
-            "version": "^0.4.1"
+            "version": "^0.4.3"
         }
     ],
     "license": "MIT",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "frameworks": "*",
     "platforms": "*",
     "headers": ["BackchannelBase.h", "BackchannelStabilizedVehicle.h", "BackchannelTask.h", "BackchannelESPNOW.h", "CommandPacket.h"]
