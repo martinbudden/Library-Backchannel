@@ -17,7 +17,7 @@
         },
         {
             "name": "martinbudden/StabilizedVehicle",
-            "version": "^0.3.3"
+            "version": "^0.3.4"
         },
         {
             "name": "martinbudden/Receiver",
@@ -25,7 +25,7 @@
         }
     ],
     "license": "MIT",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "frameworks": "*",
     "platforms": "*",
     "headers": ["BackchannelBase.h", "BackchannelStabilizedVehicle.h", "BackchannelTask.h", "BackchannelESPNOW.h", "CommandPacket.h"]
