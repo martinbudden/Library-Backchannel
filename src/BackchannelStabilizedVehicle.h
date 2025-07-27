@@ -1,13 +1,13 @@
 #pragma once
 
-#include <BackchannelBase.h>
-#include <CommandPacket.h>
+#include "BackchannelBase.h"
+#include "CommandPacket.h"
 
+class AHRS;
 class AHRS_Task;
 class ReceiverBase;
 class TaskBase;
 class VehicleControllerBase;
-class VehicleControllerTask;
 
 /*!
 Backchannel that sends and receives packets that contain data for a stabilized vehicle.
@@ -15,23 +15,21 @@ Backchannel that sends and receives packets that contain data for a stabilized v
 class BackchannelStabilizedVehicle : public BackchannelBase {
 public:
     BackchannelStabilizedVehicle(
-        const base_init_t& baseInit,
-        uint32_t backchannelID,
-        uint32_t telemetryID,
+        BackchannelTransceiverBase& backchannelTransceiver,
+        const uint8_t* backchannelMacAddress,
+        const uint8_t* myMacAddress,
         VehicleControllerBase& vehicleController,
         AHRS& ahrs,
         const ReceiverBase& receiver,
-        SV_Preferences& preferences,
         const TaskBase* mainTask
     );
     BackchannelStabilizedVehicle(
-        const base_init_t& baseInit,
-        uint32_t backchannelID,
-        uint32_t telemetryID,
+        BackchannelTransceiverBase& backchannelTransceiver,
+        const uint8_t* backchannelMacAddress,
+        const uint8_t* myMacAddress,
         VehicleControllerBase& vehicleController,
         AHRS& ahrs,
-        const ReceiverBase& receiver, 
-        SV_Preferences& preferences
+        const ReceiverBase& receiver
     );
 public:
     virtual bool sendPacket(uint8_t subCommand) override;
@@ -46,7 +44,6 @@ protected:
     VehicleControllerBase& _vehicleController;
     AHRS& _ahrs;
     const ReceiverBase& _receiver;
-    SV_Preferences& _preferences;
     const TaskBase* _mainTask;
     const uint32_t _backchannelID;
     const uint32_t _telemetryID;

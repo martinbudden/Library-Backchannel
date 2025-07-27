@@ -1,7 +1,7 @@
 #include "BackchannelStabilizedVehicle.h"
+#include "BackchannelTransceiverBase.h"
 
 #include <AHRS.h>
-#include <AHRS_Task.h>
 #if defined(USE_DEBUG_PRINTF_BACKCHANNEL)
 #if defined(USE_ESPNOW)
 #include <HardwareSerial.h>
@@ -9,43 +9,38 @@
 #endif
 #include <ReceiverTelemetry.h>
 #include <ReceiverTelemetryData.h>
-#include <SV_Preferences.h>
 #include <SV_Telemetry.h>
 #include <SV_TelemetryData.h>
 #include <VehicleControllerBase.h>
-#include <VehicleControllerTask.h>
 
 BackchannelStabilizedVehicle::BackchannelStabilizedVehicle(
-    const base_init_t& baseInit,
-    uint32_t backchannelID,
-    uint32_t telemetryID,
+    BackchannelTransceiverBase& backchannelTransceiver,
+    const uint8_t* backchannelMacAddress,
+    const uint8_t* myMacAddress,
     VehicleControllerBase& vehicleController,
     AHRS& ahrs,
-    const ReceiverBase& receiver, 
-    SV_Preferences& preferences
+    const ReceiverBase& receiver
     ) :
-    BackchannelStabilizedVehicle(baseInit, backchannelID, telemetryID, vehicleController, ahrs, receiver, preferences, nullptr)
+    BackchannelStabilizedVehicle(backchannelTransceiver, backchannelMacAddress, myMacAddress, vehicleController, ahrs, receiver, nullptr)
 {
 }
 
 BackchannelStabilizedVehicle::BackchannelStabilizedVehicle(
-        const base_init_t& baseInit,
-        uint32_t backchannelID,
-        uint32_t telemetryID,
+        BackchannelTransceiverBase& backchannelTransceiver,
+        const uint8_t* backchannelMacAddress,
+        const uint8_t* myMacAddress,
         VehicleControllerBase& vehicleController,
         AHRS& ahrs,
         const ReceiverBase& receiver,
-        SV_Preferences& preferences,
         const TaskBase* mainTask
     ) :
-    BackchannelBase(baseInit),
+    BackchannelBase(backchannelTransceiver),
     _vehicleController(vehicleController),
     _ahrs(ahrs),
     _receiver(receiver),
-    _preferences(preferences),
     _mainTask(mainTask),
-    _backchannelID(backchannelID),
-    _telemetryID(telemetryID)
+    _backchannelID(idFromMacAddress(backchannelMacAddress)),
+    _telemetryID(idFromMacAddress(myMacAddress))
 {
 #if !defined(ESP_NOW_MAX_DATA_LEN)
 #define ESP_NOW_MAX_DATA_LEN (250)
@@ -98,14 +93,6 @@ bool BackchannelStabilizedVehicle::packetSetOffset(const CommandPacketSetOffset&
     case CommandPacketSetOffset::SET_ACC_OFFSET_Z:
         accOffset.z = packet.value;
         _ahrs.setAccOffsetMapped(accOffset);
-        break;
-    case CommandPacketSetOffset::SAVE_GYRO_OFFSET: // NOLINT(bugprone-branch-clone) false positive
-        gyroOffset = _ahrs.getGyroOffset();
-        _preferences.putGyroOffset(gyroOffset.x, gyroOffset.y, gyroOffset.z);
-        break;
-    case CommandPacketSetOffset::SAVE_ACC_OFFSET: // NOLINT(bugprone-branch-clone) false positive
-        accOffset = _ahrs.getAccOffset();
-        _preferences.putAccOffset(accOffset.x, accOffset.y, accOffset.z);
         break;
     default:
 #if defined(USE_DEBUG_PRINTF_BACKCHANNEL)
@@ -160,7 +147,7 @@ bool BackchannelStabilizedVehicle::sendPacket(uint8_t subCommand)
             *_ahrs.getTask(),
             *_vehicleController.getTask(),
             _mainTask ?  _mainTask->getTickCountDelta() : 0,
-            _backchannelTransceiverPtr->getTickCountDeltaAndReset()
+            _backchannelTransceiver.getTickCountDeltaAndReset()
         );
         //Serial.printf("tiLen:%d\r\n", len);
         sendData(_transmitDataBufferPtr, len);
@@ -171,7 +158,7 @@ bool BackchannelStabilizedVehicle::sendPacket(uint8_t subCommand)
             _ahrs,
             _vehicleController,
             _mainTask ? _mainTask->getTickCountDelta() : 0,
-            _backchannelTransceiverPtr->getTickCountDeltaAndReset(),
+            _backchannelTransceiver.getTickCountDeltaAndReset(),
             _receiver.getDroppedPacketCountDelta()
         );
         //Serial.printf("tiLen:%d\r\n", len);
@@ -209,12 +196,12 @@ Four types of packets may be received:
 bool BackchannelStabilizedVehicle::processedReceivedPacket()
 {
     //Serial.printf("update\r\n");
-    const size_t receivedDataLength = _backchannelTransceiverPtr->getReceivedDataLength();
+    const size_t receivedDataLength = _backchannelTransceiver.getReceivedDataLength();
     if (receivedDataLength > 0) {
         // We have a packet, so process it
 
         //Serial.printf("rdLen:%d\r\n", receivedDataLength);
-        _backchannelTransceiverPtr->setReceivedDataLengthToZero();
+        _backchannelTransceiver.setReceivedDataLengthToZero();
 
         const auto* const controlPacket = reinterpret_cast<const CommandPacketControl*>(_receivedDataBufferPtr); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
         if (controlPacket->id == _backchannelID) {

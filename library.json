@@ -25,8 +25,8 @@
         }
     ],
     "license": "MIT",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "frameworks": "*",
     "platforms": "*",
-    "headers": ["BackchannelBase.h", "BackchannelStabilizedVehicle.h", "BackchannelTask.h", "BackchannelESPNOW.h", "CommandPacket.h"]
+    "headers": ["BackchannelBase.h", "BackchannelStabilizedVehicle.h", "BackchannelTask.h", "BackchannelTransceiverBase.h", "BackchannelTransceiverESPNOW.h", "CommandPacket.h"]
 }

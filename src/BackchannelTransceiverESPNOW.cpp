@@ -5,14 +5,13 @@
 
 BackchannelTransceiverESPNOW::BackchannelTransceiverESPNOW(
         ESPNOW_Transceiver& espnowTransceiver,
-        const uint8_t* backchannelMacAddress,
-        uint8_t* receivedDataBuffer,
-        size_t receivedDataBufferSize
+        const uint8_t* backchannelMacAddress
     ) :
     _espnowTransceiver(espnowTransceiver),
-    _received_data(receivedDataBuffer, receivedDataBufferSize)
+    _received_data(_receivedDataBuffer, sizeof(_receivedDataBuffer))
 {
-    assert(receivedDataBufferSize >= ESP_NOW_MAX_DATA_LEN);
+    static_assert(sizeof(_transmitDataBuffer) >= ESP_NOW_MAX_DATA_LEN && "transmit buffer too small");
+    static_assert(sizeof(_receivedDataBuffer) >= ESP_NOW_MAX_DATA_LEN && "receive buffer too small");
 
     _peer_data.receivedDataPtr = &_received_data;
     _espnowTransceiver.addSecondaryPeer(_received_data, backchannelMacAddress);

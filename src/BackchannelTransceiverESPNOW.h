@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BackchannelBase.h"
+#include "BackchannelTransceiverBase.h"
 #include <ESPNOW_Transceiver.h>
 
 
@@ -8,9 +8,7 @@ class BackchannelTransceiverESPNOW : public BackchannelTransceiverBase {
 public:
     BackchannelTransceiverESPNOW(
         ESPNOW_Transceiver& espnowTransceiver,
-        const uint8_t* backchannelMacAddress,
-        uint8_t* receivedDataBuffer,
-        size_t receivedDataBufferSize
+        const uint8_t* backchannelMacAddress
     );
 public:
     virtual int sendData(const uint8_t* data, size_t len) const override;
