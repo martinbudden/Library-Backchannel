@@ -37,7 +37,7 @@ BackchannelTask* BackchannelTask::createTask(task_info_t& taskInfo, BackchannelB
     taskInfo = {
         .taskHandle = nullptr,
         .name = "Backchannel", // max length 16, including zero terminator
-        .stackDepth = BACKCHANNEL_TASK_STACK_DEPTH_BYTES / sizeof(StackType_t),
+        .stackDepth = BACKCHANNEL_TASK_STACK_DEPTH_BYTES,
         .stackBuffer = &stack[0],
         .priority = priority,
         .coreID = coreID,
@@ -51,7 +51,7 @@ BackchannelTask* BackchannelTask::createTask(task_info_t& taskInfo, BackchannelB
         taskInfo.stackDepth,
         &taskParameters,
         taskInfo.priority,
-        taskInfo.stackBuffer,
+        taskInfo.stackBuffer / sizeof(StackType_t),
         &taskBuffer,
         taskInfo.coreID
     );
