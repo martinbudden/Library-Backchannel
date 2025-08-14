@@ -48,10 +48,10 @@ BackchannelTask* BackchannelTask::createTask(task_info_t& taskInfo, BackchannelB
     taskInfo.taskHandle = xTaskCreateStaticPinnedToCore(
         BackchannelTask::Task,
         taskInfo.name,
-        taskInfo.stackDepth,
+        taskInfo.stackDepth / sizeof(StackType_t),
         &taskParameters,
         taskInfo.priority,
-        taskInfo.stackBuffer / sizeof(StackType_t),
+        taskInfo.stackBuffer,
         &taskBuffer,
         taskInfo.coreID
     );
