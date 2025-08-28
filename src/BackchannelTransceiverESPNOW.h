@@ -16,7 +16,7 @@ public:
     virtual size_t getReceivedDataLength() const override;
     virtual void setReceivedDataLengthToZero() override;
     virtual uint32_t getTickCountDeltaAndReset() override;
-#if defined(USE_ESPNOW)
+#if defined(LIBRARY_RECEIVER_USE_ESPNOW)
 protected:
     ESPNOW_Transceiver& _espnowTransceiver;
     ESPNOW_Transceiver::received_data_t _received_data;

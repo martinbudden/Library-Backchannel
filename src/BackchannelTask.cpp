@@ -2,7 +2,7 @@
 #include "BackchannelBase.h"
 #include <TimeMicroSeconds.h>
 
-#if defined(USE_FREERTOS)
+#if defined(FRAMEWORK_USE_FREERTOS)
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #endif
@@ -14,7 +14,7 @@ loop() function for when not using FREERTOS
 void BackchannelTask::loop()
 {
     // calculate _tickCountDelta to get actual deltaT value, since we may have been delayed for more than taskIntervalTicks
-#if defined(USE_FREERTOS)
+#if defined(FRAMEWORK_USE_FREERTOS)
     const TickType_t tickCount = xTaskGetTickCount();
 #else
     const uint32_t tickCount = timeUs() / 1000;
@@ -39,7 +39,7 @@ Task function for the BackchannelTask.
 */
 [[noreturn]] void BackchannelTask::task()
 {
-#if defined(USE_FREERTOS)
+#if defined(FRAMEWORK_USE_FREERTOS)
     const uint32_t taskIntervalTicks = pdMS_TO_TICKS(_taskIntervalMicroSeconds / 1000);
     assert(taskIntervalTicks > 0 && "BackchannelTask taskIntervalTicks is zero.");
     _previousWakeTimeTicks = xTaskGetTickCount();
@@ -56,7 +56,7 @@ Task function for the BackchannelTask.
     }
 #else
     while (true) {}
-#endif // USE_FREERTOS
+#endif // FRAMEWORK_USE_FREERTOS
 }
 
 /*!

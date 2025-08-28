@@ -3,7 +3,7 @@
 
 #include <AHRS.h>
 #if defined(USE_DEBUG_PRINTF_BACKCHANNEL)
-#if defined(USE_ESPNOW)
+#if defined(FRAMEWORK_ARDUINO_ESP32)
 #include <HardwareSerial.h>
 #endif
 #endif

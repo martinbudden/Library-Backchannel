@@ -2,7 +2,7 @@
 #include "BackchannelTask.h"
 
 #if defined(USE_DEBUG_PRINTF_TASK_INFORMATION)
-#if defined(USE_ESPNOW)
+#if defined(FRAMEWORK_ARDUINO_ESP32)
 #include <HardwareSerial.h>
 #endif
 #endif
@@ -10,7 +10,7 @@
 #include <array>
 #include <cstring>
 
-#if defined(USE_FREERTOS)
+#if defined(FRAMEWORK_USE_FREERTOS)
 #include <freertos/FreeRTOS.h>
 #include <freertos/FreeRTOSConfig.h>
 #include <freertos/task.h>
@@ -21,7 +21,7 @@ BackchannelTask* BackchannelTask::createTask(task_info_t& taskInfo, BackchannelB
 {
     static BackchannelTask backchannelTask(taskIntervalMicroSeconds, backchannel);
 
-#if defined(USE_FREERTOS)
+#if defined(FRAMEWORK_USE_FREERTOS)
 #if defined(USE_DEBUG_PRINTF_TASK_INFORMATION)
     Serial.printf("**** BackchannelTask,        core:%u, priority:%u, task interval:%ums\r\n\r\n", coreID, priority, taskIntervalMicroSeconds / 1000);
 #endif
@@ -64,7 +64,7 @@ BackchannelTask* BackchannelTask::createTask(task_info_t& taskInfo, BackchannelB
     (void)taskInfo;
     (void)priority;
     (void)coreID;
-#endif // USE_FREERTOS
+#endif // FRAMEWORK_USE_FREERTOS
     return &backchannelTask;
 }
 

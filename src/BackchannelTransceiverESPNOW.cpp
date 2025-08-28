@@ -1,7 +1,7 @@
 #include "BackchannelTransceiverESPNOW.h"
 
 
-#if defined(USE_ESPNOW)
+#if defined(LIBRARY_RECEIVER_USE_ESPNOW)
 
 BackchannelTransceiverESPNOW::BackchannelTransceiverESPNOW(
         ESPNOW_Transceiver& espnowTransceiver,
@@ -42,4 +42,4 @@ uint32_t BackchannelTransceiverESPNOW::getTickCountDeltaAndReset()
     return _espnowTransceiver.getTickCountDeltaAndReset();
 }
 
-#endif // USE_ESPNOW
+#endif // LIBRARY_RECEIVER_USE_ESPNOW
