@@ -11,7 +11,7 @@ BackchannelBase::BackchannelBase(BackchannelTransceiverBase& backchannelTranscei
     {}
 
 void BackchannelBase::WAIT_FOR_DATA_RECEIVED()
-{ 
+{
     _backchannelTransceiver.WAIT_FOR_DATA_RECEIVED();
 }
 

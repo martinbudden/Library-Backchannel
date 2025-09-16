@@ -191,7 +191,7 @@ Four types of packets may be received:
 2. A request to transmit telemetry. In this case format the telemetry data and send it.
 3. A request to set a PID value. In this case set the PID value and then send back a TD_PIDS packet for display.
 4. A request to set an IMU offset value. In this case set the offset value, but don't send back an TD_AHRS packet for display,
-   since the request will have come from within 
+   since the request will have come from within
 */
 bool BackchannelStabilizedVehicle::processedReceivedPacket()
 {
