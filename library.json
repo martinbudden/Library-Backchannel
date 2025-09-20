@@ -13,19 +13,19 @@
     "dependencies": [
         {
             "name": "martinbudden/TaskBase",
-            "version": "^0.0.6"
+            "version": "^0.0.7"
         },
         {
             "name": "martinbudden/StabilizedVehicle",
-            "version": "^0.5.6"
+            "version": "^0.5.7"
         },
         {
             "name": "martinbudden/Receiver",
-            "version": "^0.5.5"
+            "version": "^0.5.6"
         }
     ],
     "license": "MIT",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "frameworks": "*",
     "platforms": "*",
     "headers": ["BackchannelBase.h", "BackchannelStabilizedVehicle.h", "BackchannelTask.h", "BackchannelTransceiverBase.h", "BackchannelTransceiverESPNOW.h", "CommandPacket.h"]

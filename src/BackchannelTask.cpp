@@ -1,6 +1,6 @@
 #include "BackchannelTask.h"
 #include "BackchannelBase.h"
-#include <TimeMicroSeconds.h>
+#include <TimeMicroseconds.h>
 #include <cassert>
 
 #if defined(FRAMEWORK_USE_FREERTOS)
@@ -26,10 +26,7 @@ void BackchannelTask::loop()
 #if defined(FRAMEWORK_USE_FREERTOS)
     const TickType_t tickCount = xTaskGetTickCount();
 #else
-    const uint32_t tickCount = timeUs() / 1000;
-    //const uint32_t timeMicroSeconds = timeUs();
-    //_timeMicroSecondsDelta = timeMicroSeconds - _timeMicroSecondsPrevious;
-    //_timeMicroSecondsPrevious = timeMicroSeconds;
+    const uint32_t tickCount = timeMs();
 #endif
 
     _tickCountDelta = tickCount - _tickCountPrevious;
@@ -49,7 +46,7 @@ Task function for the BackchannelTask.
 [[noreturn]] void BackchannelTask::task()
 {
 #if defined(FRAMEWORK_USE_FREERTOS)
-    const uint32_t taskIntervalTicks = pdMS_TO_TICKS(_taskIntervalMicroSeconds / 1000);
+    const uint32_t taskIntervalTicks = pdMS_TO_TICKS(_taskIntervalMicroseconds / 1000);
     assert(taskIntervalTicks > 0 && "BackchannelTask taskIntervalTicks is zero.");
     _previousWakeTimeTicks = xTaskGetTickCount();
 

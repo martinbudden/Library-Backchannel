@@ -21,15 +21,15 @@
 #endif
 
 
-BackchannelTask* BackchannelTask::createTask(BackchannelBase& backchannel, uint8_t priority, uint32_t core, uint32_t taskIntervalMicroSeconds)
+BackchannelTask* BackchannelTask::createTask(BackchannelBase& backchannel, uint8_t priority, uint32_t core, uint32_t taskIntervalMicroseconds)
 {
     task_info_t taskInfo{};
-    return createTask(taskInfo, backchannel, priority, core, taskIntervalMicroSeconds);
+    return createTask(taskInfo, backchannel, priority, core, taskIntervalMicroseconds);
 }
 
-BackchannelTask* BackchannelTask::createTask(task_info_t& taskInfo, BackchannelBase& backchannel, uint8_t priority, uint32_t core, uint32_t taskIntervalMicroSeconds)
+BackchannelTask* BackchannelTask::createTask(task_info_t& taskInfo, BackchannelBase& backchannel, uint8_t priority, uint32_t core, uint32_t taskIntervalMicroseconds)
 {
-    static BackchannelTask backchannelTask(taskIntervalMicroSeconds, backchannel);
+    static BackchannelTask backchannelTask(taskIntervalMicroseconds, backchannel);
 
     // Note that task parameters must not be on the stack, since they are used when the task is started, which is after this function returns.
     static TaskBase::parameters_t taskParameters { // NOLINT(misc-const-correctness) false positive
@@ -50,7 +50,7 @@ BackchannelTask* BackchannelTask::createTask(task_info_t& taskInfo, BackchannelB
         .stackBuffer = reinterpret_cast<uint8_t*>(&stack[0]), // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
         .priority = priority,
         .core = core,
-        .taskIntervalMicroSeconds = taskIntervalMicroSeconds
+        .taskIntervalMicroseconds = taskIntervalMicroseconds
     };
 #if defined(FRAMEWORK_USE_FREERTOS)
     assert(strlen(taskInfo.name) < configMAX_TASK_NAME_LEN && "Backchannel: taskname too long");
