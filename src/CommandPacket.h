@@ -25,6 +25,7 @@ struct CommandPacketControl {
         SET_MODE = 4,
         SET_PID_PROFILE = 5,
         SET_RATES_PROFILE = 6,
+        SET_DEBUG_MODE = 7,
     };
     uint32_t id;
     uint8_t type;
@@ -44,7 +45,8 @@ struct CommandPacketRequestData {
         REQUEST_RECEIVER_DATA = 5,
         REQUEST_PID_DATA = 6,
         REQUEST_VEHICLE_CONTROLLER_DATA = 7,
-        REQUEST_MSP_DATA = 8
+        REQUEST_DEBUG_DATA = 8,
+        REQUEST_MSP_DATA = 9
     };
     uint32_t id;
     uint8_t type;
