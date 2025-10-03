@@ -59,8 +59,8 @@ struct CommandPacketSetPID {
     enum { TYPE = 3 };
     enum {
         NO_ACTION = 0,
-        SET_P = 1,  SET_I = 2,  SET_D = 3,  SET_F = 4, SET_S = 5,
-        SAVE_P = 11, SAVE_I = 12, SAVE_D = 13, SAVE_F = 14, SAVE_S = 15,
+        SET_P =   1, SET_I =   2, SET_D =   3, SET_F =   4, SET_S =   5, SET_PD =   6,
+        SAVE_P = 11, SAVE_I = 12, SAVE_D = 13, SAVE_F = 14, SAVE_S = 15, SAVE_PD = 16,
         RESET_PID = 20,
         SET_SETPOINT = 30,
         SET_PITCH_BALANCE_ANGLE = 41,
@@ -120,11 +120,13 @@ struct CommandPacketMSP {
     enum { TYPE = 36 }; // '$'
     uint32_t id;
 
-    enum { MAX_MSP_DATA_SIZE = 256 };
-    enum { MSP_HEADER_AND_CHECKSUM_SIZE = 6 };
-    enum { PACKET_OVERHEAD = sizeof(id) + MSP_HEADER_AND_CHECKSUM_SIZE };
-    enum { ESP_NOW_MAX_DATA_SIZE = 250 };
-    enum { MAX_PAYLOAD_SIZE_FOR_ESP = ESP_NOW_MAX_DATA_SIZE - PACKET_OVERHEAD };
+    enum {
+        MAX_MSP_DATA_SIZE = 256,
+        MSP_HEADER_AND_CHECKSUM_SIZE = 6,
+        PACKET_OVERHEAD = sizeof(id) + MSP_HEADER_AND_CHECKSUM_SIZE,
+        ESP_NOW_MAX_DATA_SIZE = 250,
+        MAX_PAYLOAD_SIZE_FOR_ESP = ESP_NOW_MAX_DATA_SIZE - PACKET_OVERHEAD
+    };
 
     struct msp_t {
         uint8_t headerDollar;
