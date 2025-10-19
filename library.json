@@ -17,11 +17,11 @@
         },
         {
             "name": "martinbudden/StabilizedVehicle",
-            "version": "^0.5.11"
+            "version": "^0.5.15"
         },
         {
             "name": "martinbudden/Receiver",
-            "version": "^0.5.8"
+            "version": "^0.5.10"
         }
     ],
     "license": "MIT",
