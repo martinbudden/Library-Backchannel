@@ -59,8 +59,8 @@ struct CommandPacketSetPID {
     enum { TYPE = 3 };
     enum {
         NO_ACTION = 0,
-        SET_P =   1, SET_I =   2, SET_D =   3, SET_F =   4, SET_S =   5, SET_PD =   6,
-        SAVE_P = 11, SAVE_I = 12, SAVE_D = 13, SAVE_F = 14, SAVE_S = 15, SAVE_PD = 16,
+        SET_P =   1, SET_I =   2, SET_D =   3, SET_S =   4, SET_K =   5, SET_PD =   6,
+        SAVE_P = 11, SAVE_I = 12, SAVE_D = 13, SAVE_S = 14, SAVE_K = 15, SAVE_PD = 16,
         RESET_PID = 20,
         SET_SETPOINT = 30,
         SET_PITCH_BALANCE_ANGLE = 41,
