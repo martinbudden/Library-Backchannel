@@ -166,7 +166,8 @@ bool BackchannelStabilizedVehicle::sendPacket(uint8_t subCommand)
         break;
     }
     case CommandPacketRequestData::REQUEST_AHRS_DATA: {
-        const size_t len = packTelemetryData_AHRS(_transmitDataBufferPtr, _telemetryID, _sequenceNumber, _ahrs);
+        const AHRS::data_t& ahrsData {};
+        const size_t len = packTelemetryData_AHRS(_transmitDataBufferPtr, _telemetryID, _sequenceNumber, _ahrs, ahrsData);
         //Serial.printf("ahrsLen:%d\r\n", len);
         sendData(_transmitDataBufferPtr, len);
         break;
