@@ -8,6 +8,7 @@ Can be subclassed to provide transceivers over ESPNOW or UDP (for example).
 */
 class BackchannelTransceiverBase {
 public:
+    virtual ~BackchannelTransceiverBase() = default;
     virtual int sendData(const uint8_t* data, size_t len) const = 0;
     virtual void WAIT_FOR_DATA_RECEIVED() = 0;
     virtual size_t getReceivedDataLength() const = 0;

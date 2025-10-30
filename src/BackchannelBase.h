@@ -9,6 +9,8 @@ class BackchannelBase {
 protected:
     BackchannelBase(BackchannelTransceiverBase& backchannelTransceiver);
 public:
+    virtual ~BackchannelBase() = default;
+
     void WAIT_FOR_DATA_RECEIVED();
     int sendData(const uint8_t* data, size_t len) const;
 

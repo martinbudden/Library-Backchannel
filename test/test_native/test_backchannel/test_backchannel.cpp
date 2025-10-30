@@ -20,13 +20,6 @@ void tearDown()
 
 class BackchannelTransceiverNull : public BackchannelTransceiverBase {
 public:
-    virtual ~BackchannelTransceiverNull() = default;
-    // BackchannelTransceiverNull is not copyable or moveable
-    BackchannelTransceiverNull(const BackchannelTransceiverNull&) = delete;
-    BackchannelTransceiverNull& operator=(const BackchannelTransceiverNull&) = delete;
-    BackchannelTransceiverNull(BackchannelTransceiverNull&&) = delete;
-    BackchannelTransceiverNull& operator=(BackchannelTransceiverNull&&) = delete;
-
     int sendData(const uint8_t* data, size_t len) const override { (void)data; (void)len; return 0; }
     void WAIT_FOR_DATA_RECEIVED() override {}
     size_t getReceivedDataLength() const override { return 0; }

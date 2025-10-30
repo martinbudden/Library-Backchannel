@@ -159,7 +159,7 @@ bool BackchannelStabilizedVehicle::sendPacket(uint8_t subCommand)
             _vehicleController,
             _mainTask ? _mainTask->getTickCountDelta() : 0,
             _backchannelTransceiver.getTickCountDeltaAndReset(),
-            _receiver.getDroppedPacketCountDelta()
+            static_cast<uint32_t>(_receiver.getDroppedPacketCountDelta())
         );
         //Serial.printf("tiLen:%d\r\n", len);
         sendData(_transmitDataBufferPtr, len);
