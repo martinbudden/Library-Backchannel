@@ -13,15 +13,15 @@
     "dependencies": [
         {
             "name": "martinbudden/TaskBase",
-            "version": "^0.0.9"
+            "version": "^0.0.10"
         },
         {
             "name": "martinbudden/StabilizedVehicle",
-            "version": "^0.5.15"
+            "version": "^0.5.17"
         },
         {
             "name": "martinbudden/Receiver",
-            "version": "^0.5.10"
+            "version": "^0.5.11"
         }
     ],
     "license": "MIT",
