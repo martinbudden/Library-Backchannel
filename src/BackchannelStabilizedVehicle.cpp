@@ -2,8 +2,9 @@
 #include "BackchannelTransceiverBase.h"
 
 #include <AHRS.h>
-#if defined(USE_DEBUG_PRINTF_BACKCHANNEL)
 #if defined(FRAMEWORK_ARDUINO_ESP32)
+//#define USE_DEBUG_PRINTF_BACKCHANNEL
+#if defined(USE_DEBUG_PRINTF_BACKCHANNEL)
 #include <HardwareSerial.h>
 #endif
 #endif
@@ -67,7 +68,7 @@ bool BackchannelStabilizedVehicle::packetSetOffset(const CommandPacketSetOffset&
     IMU_Base::xyz_int32_t accOffset = _ahrs.getAccOffsetMapped();
 
 #if defined(USE_DEBUG_PRINTF_BACKCHANNEL)
-    //Serial.printf("    packetSetOffset itype:%d, len:%d value:%d, type:%d\r\n", packet.type, packet.len, packet.value, packet.type);
+    Serial.printf("BSV packetSetOffset type:%d, len:%d value:%d, type:%d\r\n", packet.type, packet.len, packet.setType, packet.value);
 #endif
     switch (packet.setType) {
     case CommandPacketSetOffset::SET_GYRO_OFFSET_X:
@@ -119,15 +120,25 @@ bool BackchannelStabilizedVehicle::packetSetPID(const CommandPacketSetPID& packe
 bool BackchannelStabilizedVehicle::packetRequestData(const CommandPacketRequestData& packet)
 {
 #if defined(USE_DEBUG_PRINTF_BACKCHANNEL)
-    //Serial.printf("TransmitRequest packet type:%d, len:%d, value:%d\r\n", packet.type, packet.len, packet.value);
+    Serial.printf("BSV packetRequestData packet type:%d, len:%d, requestType:%d, valueType:%d\r\n", packet.type, packet.len, packet.requestType, packet.valueType);
 #endif
     _requestType = packet.requestType;
     sendPacket(packet.valueType);
     return true;
 }
 
+/*!
+Called from within main task function.
+
+Once _requestType has been set, this will continue to send packets until _requestType is set to NO_REQUEST
+*/
 bool BackchannelStabilizedVehicle::sendPacket(uint8_t subCommand)
 {
+#if defined(USE_DEBUG_PRINTF_BACKCHANNEL)
+    if (_requestType != CommandPacketRequestData::NO_REQUEST) {
+        //Serial.printf("BSV sendPacket requestType:%d, subCommand:%d\r\n", _requestType, subCommand);
+    }
+#endif
     (void)subCommand;
 
     switch (_requestType) {
@@ -205,6 +216,9 @@ bool BackchannelStabilizedVehicle::processedReceivedPacket()
         _backchannelTransceiver.setReceivedDataLengthToZero();
 
         const auto* const controlPacket = reinterpret_cast<const CommandPacketControl*>(_receivedDataBufferPtr); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
+#if defined(USE_DEBUG_PRINTF_BACKCHANNEL)
+        Serial.printf("BSV processedReceivedPacket id:%x, type:%d, len:%d value:%d\r\n", controlPacket->id, controlPacket->type, controlPacket->len, controlPacket->value);
+#endif
         if (controlPacket->id == _backchannelID) {
             // it's our packet, so process it
 
@@ -213,19 +227,15 @@ bool BackchannelStabilizedVehicle::processedReceivedPacket()
             case CommandPacketControl::TYPE: // NOLINT(bugprone-branch-clone) false positive
                 packetControl(*reinterpret_cast<const CommandPacketControl*>(_receivedDataBufferPtr)); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
                 return true;
-                break;
             case CommandPacketRequestData::TYPE: // NOLINT(bugprone-branch-clone) false positive
                 packetRequestData(*reinterpret_cast<const CommandPacketRequestData*>(_receivedDataBufferPtr)); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
                 return true;
-                break;
             case CommandPacketSetPID::TYPE: // NOLINT(bugprone-branch-clone) false positive
                 packetSetPID(*reinterpret_cast<const CommandPacketSetPID*>(_receivedDataBufferPtr)); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
                 return true;
-                break;
             case CommandPacketSetOffset::TYPE: // NOLINT(bugprone-branch-clone) false positive
                 packetSetOffset(*reinterpret_cast<const CommandPacketSetOffset*>(_receivedDataBufferPtr)); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
                 return true;
-                break;
             default:
                 // do nothing
                 break;
