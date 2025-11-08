@@ -91,7 +91,7 @@ struct CommandPacketSetOffset {
     uint8_t len; // length of whole packet, ie sizeof(CommandPacketSetOffset)
     uint8_t setType;
     uint8_t filler;
-    int32_t value;
+    float value;
 };
 
 struct CommandPacketSetFilter {

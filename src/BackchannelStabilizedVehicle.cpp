@@ -64,8 +64,8 @@ uint32_t BackchannelStabilizedVehicle::idFromMacAddress(const uint8_t* macAddres
 
 bool BackchannelStabilizedVehicle::packetSetOffset(const CommandPacketSetOffset& packet)
 {
-    IMU_Base::xyz_int32_t gyroOffset = _ahrs.getGyroOffsetMapped();
-    IMU_Base::xyz_int32_t accOffset = _ahrs.getAccOffsetMapped();
+    xyz_t gyroOffset = _ahrs.getGyroOffsetMapped();
+    xyz_t accOffset = _ahrs.getAccOffsetMapped();
 
 #if defined(USE_DEBUG_PRINTF_BACKCHANNEL)
     Serial.printf("BSV packetSetOffset type:%d, len:%d value:%d, type:%d\r\n", packet.type, packet.len, packet.setType, packet.value);
