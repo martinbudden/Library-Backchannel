@@ -31,7 +31,8 @@ void BackchannelTask::loop()
 
     _tickCountDelta = tickCount - _tickCountPrevious;
     _tickCountPrevious = tickCount;
-    if (_tickCountDelta > 0) { // guard against the case of this while loop executing twice on the same tick interval
+    // guard against the case of this while loop executing twice on the same tick interval
+    if (_tickCountDelta > 0) { // cppcheck-suppress knownConditionTrueFalse
         if (_backchannel.processedReceivedPacket() == false) { // NOLINT(readability-simplify-boolean-expr)
             // we didn't receive a packet (which can trigger a subsequent send)
             // so send a telemetry packet, if any requests outstanding
