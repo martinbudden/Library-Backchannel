@@ -1,4 +1,4 @@
-#if defined (USE_EMPTY_MAIN)
+#if defined (LIBRARY_BACKCHANNEL_USE_EMPTY_MAIN)
 
 #if defined(FRAMEWORK_RPI_PICO)
 int main()
@@ -22,6 +22,11 @@ int main()
 
 #elif defined(FRAMEWORK_TEST)
 
+int main()
+{
+    return 0;
+}
+
 #else // defaults to FRAMEWORK_ARDUINO
 
 #include <Arduino.h>
@@ -36,4 +41,4 @@ void loop()
 
 #endif // FRAMEWORK
 
-#endif // USE_EMPTY_MAIN
+#endif // LIBRARY_BACKCHANNEL_USE_EMPTY_MAIN

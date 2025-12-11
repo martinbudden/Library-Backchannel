@@ -44,9 +44,10 @@ struct CommandPacketRequestData {
         REQUEST_AHRS_DATA = 4,
         REQUEST_RECEIVER_DATA = 5,
         REQUEST_PID_DATA = 6,
-        REQUEST_VEHICLE_CONTROLLER_DATA = 7,
-        REQUEST_DEBUG_DATA = 8,
-        REQUEST_MSP_DATA = 9
+        REQUEST_PID_ERROR_DATA = 7,
+        REQUEST_VEHICLE_CONTROLLER_DATA = 8,
+        REQUEST_DEBUG_DATA = 9,
+        REQUEST_MSP_DATA = 10,
     };
     uint32_t id;
     uint8_t type;
