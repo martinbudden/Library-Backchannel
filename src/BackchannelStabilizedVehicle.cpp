@@ -68,7 +68,7 @@ bool BackchannelStabilizedVehicle::packetSetOffset(const CommandPacketSetOffset&
     xyz_t accOffset = _ahrs.getAccOffsetMapped();
 
 #if defined(USE_DEBUG_PRINTF_BACKCHANNEL)
-    Serial.printf("BSV packetSetOffset type:%d, len:%d value:%d, type:%d\r\n", packet.type, packet.len, packet.setType, packet.value);
+    Serial.printf("BSV packetSetOffset type:%d, len:%d value:%f, type:%d\r\n", packet.type, packet.len, packet.setType, packet.value);
 #endif
     switch (packet.setType) {
     case CommandPacketSetOffset::SET_GYRO_OFFSET_X:
@@ -217,7 +217,7 @@ bool BackchannelStabilizedVehicle::processedReceivedPacket()
 
         const auto* const controlPacket = reinterpret_cast<const CommandPacketControl*>(_receivedDataBufferPtr); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
 #if defined(USE_DEBUG_PRINTF_BACKCHANNEL)
-        Serial.printf("BSV processedReceivedPacket id:%x, type:%d, len:%d value:%d\r\n", controlPacket->id, controlPacket->type, controlPacket->len, controlPacket->value);
+        Serial.printf("BSV processedReceivedPacket id:%x, type:%d, len:%d value:%d\r\n", static_cast<unsigned int>(controlPacket->id), controlPacket->type, controlPacket->len, controlPacket->value);
 #endif
         if (controlPacket->id == _backchannelID) {
             // it's our packet, so process it
