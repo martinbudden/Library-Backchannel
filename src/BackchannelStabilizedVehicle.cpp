@@ -207,7 +207,7 @@ Four types of packets may be received:
 */
 bool BackchannelStabilizedVehicle::processedReceivedPacket()
 {
-    //Serial.printf("update\r\n");
+    //Serial.printf("processedReceivedPacket\r\n");
     const size_t receivedDataLength = _backchannelTransceiver.getReceivedDataLength();
     if (receivedDataLength > 0) {
         // We have a packet, so process it
@@ -215,7 +215,8 @@ bool BackchannelStabilizedVehicle::processedReceivedPacket()
         //Serial.printf("rdLen:%d\r\n", receivedDataLength);
         _backchannelTransceiver.setReceivedDataLengthToZero();
 
-        const auto* const controlPacket = reinterpret_cast<const CommandPacketControl*>(_receivedDataBufferPtr); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
+        // NOLINTBEGIN(cppcoreguidelines-pro-type-reinterpret-cast,bugprone-branch-clone)
+        const auto* const controlPacket = reinterpret_cast<const CommandPacketControl*>(_receivedDataBufferPtr);
 #if defined(USE_DEBUG_PRINTF_BACKCHANNEL)
         Serial.printf("BSV processedReceivedPacket id:%x, type:%d, len:%d value:%d\r\n", static_cast<unsigned int>(controlPacket->id), controlPacket->type, controlPacket->len, controlPacket->value);
 #endif
@@ -224,23 +225,24 @@ bool BackchannelStabilizedVehicle::processedReceivedPacket()
 
             //Serial.printf("Backchannel::update id:%x, type:%d, len:%d value:%d\r\n", controlPacket->id, controlPacket->type, controlPacket->len, controlPacket->value);
             switch (controlPacket->type) {
-            case CommandPacketControl::TYPE: // NOLINT(bugprone-branch-clone) false positive
-                packetControl(*reinterpret_cast<const CommandPacketControl*>(_receivedDataBufferPtr)); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
+            case CommandPacketControl::TYPE:
+                packetControl(*reinterpret_cast<const CommandPacketControl*>(_receivedDataBufferPtr));
                 return true;
-            case CommandPacketRequestData::TYPE: // NOLINT(bugprone-branch-clone) false positive
-                packetRequestData(*reinterpret_cast<const CommandPacketRequestData*>(_receivedDataBufferPtr)); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
+            case CommandPacketRequestData::TYPE:
+                packetRequestData(*reinterpret_cast<const CommandPacketRequestData*>(_receivedDataBufferPtr));
                 return true;
-            case CommandPacketSetPID::TYPE: // NOLINT(bugprone-branch-clone) false positive
-                packetSetPID(*reinterpret_cast<const CommandPacketSetPID*>(_receivedDataBufferPtr)); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
+            case CommandPacketSetPID::TYPE:
+                packetSetPID(*reinterpret_cast<const CommandPacketSetPID*>(_receivedDataBufferPtr));
                 return true;
-            case CommandPacketSetOffset::TYPE: // NOLINT(bugprone-branch-clone) false positive
-                packetSetOffset(*reinterpret_cast<const CommandPacketSetOffset*>(_receivedDataBufferPtr)); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
+            case CommandPacketSetOffset::TYPE:
+                packetSetOffset(*reinterpret_cast<const CommandPacketSetOffset*>(_receivedDataBufferPtr));
                 return true;
             default:
                 // do nothing
                 break;
             } // end switch
         }
+        // NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast,bugprone-branch-clone)
     }
 
     return false;

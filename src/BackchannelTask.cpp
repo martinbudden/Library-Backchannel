@@ -53,8 +53,14 @@ Task function for the BackchannelTask.
 
     while (true) {
         // delay until the end of the next taskIntervalTicks
-        vTaskDelayUntil(&_previousWakeTimeTicks, taskIntervalTicks);
-
+#if (tskKERNEL_VERSION_MAJOR > 10) || ((tskKERNEL_VERSION_MAJOR == 10) && (tskKERNEL_VERSION_MINOR >= 5))
+            const BaseType_t wasDelayed = xTaskDelayUntil(&_previousWakeTimeTicks, taskIntervalTicks);
+            if (wasDelayed) {
+                _wasDelayed = true;
+            }
+#else
+            vTaskDelayUntil(&_previousWakeTimeTicks, taskIntervalTicks);
+#endif
         if (_backchannel.processedReceivedPacket() == false) {
             // we didn't receive a packet (which can trigger a subsequent send)
             // so send a telemetry packet, if any requests outstanding
