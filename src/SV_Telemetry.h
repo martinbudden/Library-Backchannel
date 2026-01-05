@@ -1,10 +1,12 @@
 #pragma once
 
-#include <AHRS.h>
 #include <cstddef>
 #include <cstdint>
 
+struct ahrs_data_t;
+class AHRS;
 class AHRS_Task;
+class TaskBase;
 class VehicleControllerBase;
 
 
@@ -27,7 +29,7 @@ size_t packTelemetryData_TaskIntervalsExtended(uint8_t* telemetryDataPtr, uint32
 
 size_t packTelemetryData_AHRS(uint8_t* telemetryDataPtr, uint32_t id, uint32_t sequenceNumber,
         const AHRS& ahrs,
-        const AHRS::ahrs_data_t& ahrsData);
+        const ahrs_data_t& ahrsData);
 
 size_t packTelemetryData_PID(uint8_t* telemetryDataPtr, uint32_t id, uint32_t sequenceNumber,
     const VehicleControllerBase& vehicleController,
