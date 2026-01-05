@@ -2,6 +2,9 @@
 #include "BackchannelStabilizedVehicle.h"
 #include "BackchannelTransceiverBase.h"
 #include "CommandPacket.h"
+#include "SV_TelemetryData.h"
+
+#include <AHRS.h>
 
 #include <unity.h>
 
@@ -39,6 +42,28 @@ void test_backchannel()
 
     enum { MAX_COMMAND_PACKET_MSP_SIZE = 260 };
     static_assert(sizeof(CommandPacketMSP) <= MAX_COMMAND_PACKET_MSP_SIZE);
+}
+
+void test_sv_telemetry_data()
+{
+    enum { MAX_TD_PACKET_SIZE = 250 };
+    static_assert(sizeof(TD_RESERVED) <= MAX_TD_PACKET_SIZE);
+    static_assert(sizeof(TD_MINIMAL) <= MAX_TD_PACKET_SIZE);
+    static_assert(sizeof(TD_TASK_INTERVALS) <= MAX_TD_PACKET_SIZE);
+    static_assert(sizeof(TD_TASK_INTERVALS_EXTENDED) <= MAX_TD_PACKET_SIZE);
+    static_assert(sizeof(TD_AHRS) <= MAX_TD_PACKET_SIZE);
+    static_assert(sizeof(TD_PID) <= MAX_TD_PACKET_SIZE);
+    static_assert(sizeof(TD_PID_EXTENDED) <= MAX_TD_PACKET_SIZE);
+    static_assert(sizeof(TD_FC_QUADCOPTER) <= MAX_TD_PACKET_SIZE);
+
+    enum { MAX_TD_MSP_PACKET_SIZE = 260 };
+    static_assert(sizeof(TD_MSP) <= MAX_TD_MSP_PACKET_SIZE);
+    static_assert(sizeof(TD_BLACKBOX_E) <= MAX_TD_MSP_PACKET_SIZE);
+    static_assert(sizeof(TD_BLACKBOX_I) <= MAX_TD_MSP_PACKET_SIZE);
+    static_assert(sizeof(TD_BLACKBOX_P) <= MAX_TD_MSP_PACKET_SIZE);
+    static_assert(sizeof(TD_BLACKBOX_S) <= MAX_TD_MSP_PACKET_SIZE);
+
+    static_assert(TD_TASK_INTERVALS_EXTENDED::TIME_CHECKS_COUNT == AHRS::TIME_CHECKS_COUNT);
 }
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
