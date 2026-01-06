@@ -1,3 +1,5 @@
+#if !defined(LIBRARY_BACKCHANNEL_EXCLUDE_BACKCHANNEL_STABILIZED_VEHICLE)
+
 #include "BackchannelStabilizedVehicle.h"
 #include "BackchannelTransceiverBase.h"
 
@@ -247,3 +249,5 @@ bool BackchannelStabilizedVehicle::processedReceivedPacket()
 
     return false;
 }
+
+#endif // LIBRARY_BACKCHANNEL_EXCLUDE_BACKCHANNEL_STABILIZED_VEHICLE

@@ -1,7 +1,9 @@
+#if !defined(LIBRARY_BACKCHANNEL_EXCLUDE_SV_TELEMETRY)
+
 #include "SV_Telemetry.h"
 #include "SV_TelemetryData.h"
 
-#include <AHRS_Task.h>
+#include <TaskBase.h>
 #include <VehicleControllerBase.h>
 
 
@@ -190,3 +192,5 @@ size_t packTelemetryData_PID_Outputs(uint8_t* telemetryDataPtr, uint32_t id, uin
 
     return td->len;
 }
+
+#endif // LIBRARY_BACKCHANNEL_EXCLUDE_SV_TELEMETRY
