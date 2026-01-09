@@ -20,8 +20,8 @@
             "version": "^0.5.24"
         },
         {
-            "name": "martinbudden/Receiver",
-            "version": "^0.5.14"
+            "name": "martinbudden/Receivers",
+            "version": "^0.0.1"
         }
     ],
     "license": "MIT",
