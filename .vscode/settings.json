@@ -23,11 +23,13 @@
         "unflags",
         "Wattributes",
         "Wcast",
+        "Wdeprecated",
         "Wdisabled",
         "Wdouble",
         "Werror",
         "Wextra",
         "Wfloat",
+        "Wignored",
         "Wimplicit",
         "Winline",
         "Wmissing",
@@ -35,10 +37,13 @@
         "Wnon",
         "Wpacked",
         "Wpadded",
+        "Wpedantic",
+        "Wredundant",
         "Wshadow",
         "Wsign",
         "Wstrict",
         "Wtrampolines",
+        "Wunsafe",
         "Wunused"
     ]
 }
