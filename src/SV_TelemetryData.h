@@ -280,7 +280,7 @@ struct TD_MSP {
 
     enum { MAX_MSP_DATA_SIZE = 256 };
     enum { MSP_HEADER_AND_CHECKSUM_SIZE = 6 };
-    enum { 
+    enum {
         PACKET_OVERHEAD = sizeof(id) + MSP_HEADER_AND_CHECKSUM_SIZE,
         ESP_NOW_MAX_DATA_SIZE = 250,
         MAX_PAYLOAD_SIZE_FOR_ESP = ESP_NOW_MAX_DATA_SIZE - PACKET_OVERHEAD
