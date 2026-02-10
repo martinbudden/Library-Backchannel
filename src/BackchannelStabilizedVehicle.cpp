@@ -172,7 +172,7 @@ bool BackchannelStabilizedVehicle::sendPacket(uint8_t subCommand)
             _vehicleController,
             _mainTask ? _mainTask->getTickCountDelta() : 0,
             _backchannelTransceiver.getTickCountDeltaAndReset(),
-            static_cast<uint32_t>(_receiver.getDroppedPacketCountDelta())
+            static_cast<uint32_t>(_receiver.get_dropped_packet_count_delta())
         );
         //Serial.printf("tiLen:%d\r\n", len);
         sendData(_transmitDataBufferPtr, len);
@@ -186,7 +186,7 @@ bool BackchannelStabilizedVehicle::sendPacket(uint8_t subCommand)
         break;
     }
     case CommandPacketRequestData::REQUEST_RECEIVER_DATA: {
-        const size_t len = packTelemetryData_Receiver(_transmitDataBufferPtr, _telemetryID, _sequenceNumber, _receiver);
+        const size_t len = pack_telemetry_data_receiver(_transmitDataBufferPtr, _telemetryID, _sequenceNumber, _receiver);
         //Serial.printf("receiverLen:%d\r\n", len);
         sendData(_transmitDataBufferPtr, len);
         break;

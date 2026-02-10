@@ -1,13 +1,13 @@
 #pragma once
 
 #include "BackchannelTransceiverBase.h"
-#include <ESPNOW_Transceiver.h>
+#include <EspnowTransceiver.h>
 
 
 class BackchannelTransceiverESPNOW : public BackchannelTransceiverBase {
 public:
     BackchannelTransceiverESPNOW(
-        ESPNOW_Transceiver& espnowTransceiver,
+        EspnowTransceiver& espnowTransceiver,
         const uint8_t* backchannelMacAddress
     );
 public:
@@ -18,8 +18,8 @@ public:
     virtual uint32_t getTickCountDeltaAndReset() override;
 #if defined(LIBRARY_RECEIVER_USE_ESPNOW)
 protected:
-    ESPNOW_Transceiver& _espnowTransceiver;
-    ESPNOW_Transceiver::received_data_t _received_data;
-    ESPNOW_Transceiver::peer_data_t _peer_data {};
+    EspnowTransceiver& _espnowTransceiver;
+    EspnowTransceiver::received_data_t _received_data;
+    EspnowTransceiver::peer_data_t _peer_data {};
 #endif
 };

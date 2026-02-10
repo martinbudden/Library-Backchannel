@@ -29,7 +29,7 @@ classDiagram
     BackchannelTransceiverBase <|-- BackchannelTransceiverUDP
 
     BackchannelTransceiverBase <|-- BackchannelTransceiverESPNOW
-    BackchannelTransceiverESPNOW o-- ESPNOW_Transceiver
+    BackchannelTransceiverESPNOW o-- EspnowTransceiver
 
     BackchannelBase <|-- BackchannelStabilizedVehicle
     class BackchannelStabilizedVehicle {

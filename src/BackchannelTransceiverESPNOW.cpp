@@ -4,7 +4,7 @@
 #if defined(LIBRARY_RECEIVER_USE_ESPNOW)
 
 BackchannelTransceiverESPNOW::BackchannelTransceiverESPNOW(
-        ESPNOW_Transceiver& espnowTransceiver,
+        EspnowTransceiver& espnowTransceiver,
         const uint8_t* backchannelMacAddress
     ) :
     _espnowTransceiver(espnowTransceiver),
