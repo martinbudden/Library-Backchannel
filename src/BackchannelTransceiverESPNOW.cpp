@@ -14,7 +14,7 @@ BackchannelTransceiverESPNOW::BackchannelTransceiverESPNOW(
     static_assert(sizeof(_receivedDataBuffer) >= ESP_NOW_MAX_DATA_LEN && "receive buffer too small");
 
     _peer_data.receivedDataPtr = &_received_data;
-    _espnowTransceiver.addSecondaryPeer(_received_data, backchannelMacAddress);
+    _espnowTransceiver.add_secondary_peer(_received_data, backchannelMacAddress);
 }
 
 void BackchannelTransceiverESPNOW::WAIT_FOR_DATA_RECEIVED()
@@ -24,7 +24,7 @@ void BackchannelTransceiverESPNOW::WAIT_FOR_DATA_RECEIVED()
 
 int BackchannelTransceiverESPNOW::sendData(const uint8_t* data, size_t len) const
 {
-    return _espnowTransceiver.sendDataSecondary(data, len);
+    return _espnowTransceiver.send_data_secondary(data, len);
 }
 
 size_t BackchannelTransceiverESPNOW::getReceivedDataLength() const
@@ -39,7 +39,7 @@ void BackchannelTransceiverESPNOW::setReceivedDataLengthToZero()
 
 uint32_t BackchannelTransceiverESPNOW::getTickCountDeltaAndReset()
 {
-    return _espnowTransceiver.getTickCountDeltaAndReset();
+    return _espnowTransceiver.get_tick_count_delta_and_reset();
 }
 
 #endif // LIBRARY_RECEIVER_USE_ESPNOW
