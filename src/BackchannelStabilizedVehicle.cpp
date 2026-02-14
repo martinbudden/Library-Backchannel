@@ -66,8 +66,8 @@ uint32_t BackchannelStabilizedVehicle::idFromMacAddress(const uint8_t* macAddres
 
 bool BackchannelStabilizedVehicle::packetSetOffset(const CommandPacketSetOffset& packet)
 {
-    xyz_t gyroOffset = _ahrs.getGyroOffsetMapped();
-    xyz_t accOffset = _ahrs.getAccOffsetMapped();
+    xyz_t gyroOffset = _ahrs.get_gyro_offset_mapped();
+    xyz_t accOffset = _ahrs.get_acc_offset_mapped();
 
 #if defined(USE_DEBUG_PRINTF_BACKCHANNEL)
     Serial.printf("BSV packetSetOffset type:%d, len:%d value:%f, type:%d\r\n", packet.type, packet.len, packet.setType, packet.value);
@@ -75,27 +75,27 @@ bool BackchannelStabilizedVehicle::packetSetOffset(const CommandPacketSetOffset&
     switch (packet.setType) {
     case CommandPacketSetOffset::SET_GYRO_OFFSET_X:
         gyroOffset.x = packet.value;
-        _ahrs.setGyroOffsetMapped(gyroOffset);
+        _ahrs.set_gyro_offset_mapped(gyroOffset);
         break;
     case CommandPacketSetOffset::SET_GYRO_OFFSET_Y:
         gyroOffset.y = packet.value;
-        _ahrs.setGyroOffsetMapped(gyroOffset);
+        _ahrs.set_gyro_offset_mapped(gyroOffset);
         break;
     case CommandPacketSetOffset::SET_GYRO_OFFSET_Z:
         gyroOffset.z = packet.value;
-        _ahrs.setGyroOffsetMapped(gyroOffset);
+        _ahrs.set_gyro_offset_mapped(gyroOffset);
         break;
     case CommandPacketSetOffset::SET_ACC_OFFSET_X:
         accOffset.x = packet.value;
-        _ahrs.setAccOffsetMapped(accOffset);
+        _ahrs.set_acc_offset_mapped(accOffset);
         break;
     case CommandPacketSetOffset::SET_ACC_OFFSET_Y:
         accOffset.y = packet.value;
-        _ahrs.setAccOffsetMapped(accOffset);
+        _ahrs.set_acc_offset_mapped(accOffset);
         break;
     case CommandPacketSetOffset::SET_ACC_OFFSET_Z:
         accOffset.z = packet.value;
-        _ahrs.setAccOffsetMapped(accOffset);
+        _ahrs.set_acc_offset_mapped(accOffset);
         break;
     default:
 #if defined(USE_DEBUG_PRINTF_BACKCHANNEL)

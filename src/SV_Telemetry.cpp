@@ -110,15 +110,15 @@ size_t packTelemetryData_AHRS(uint8_t* telemetryDataPtr, uint32_t id, uint32_t s
         .roll = 0.0F,
         .pitch = 0.0F,
         .yaw = 0.0F,
-        .gyroRPS = ahrsData.accGyroRPS.gyroRPS,
-        .acc = ahrsData.accGyroRPS.acc,
-        .gyroOffset = ahrs.getGyroOffsetMapped(),
-        .accOffset = ahrs.getAccOffsetMapped(),
+        .gyroRPS = ahrsData.acc_gyro_rps.gyro_rps,
+        .acc = ahrsData.acc_gyro_rps.acc,
+        .gyroOffset = ahrs.get_gyro_offset_mapped(),
+        .accOffset = ahrs.get_acc_offset_mapped(),
     };
 
     td->taskIntervalTicks = 0; // to be filled in by the caller
 
-    const uint32_t flags = ahrs.getFlags();
+    const uint32_t flags = ahrs.get_flags();
     td->flags = (flags & AHRS::SENSOR_FUSION_REQUIRES_INITIALIZATION) ? TD_AHRS::SENSOR_FUSION_REQUIRES_INITIALIZATION : 0;
     if (flags & AHRS::IMU_AUTO_CALIBRATES) {
         td->flags |= TD_AHRS::IMU_AUTO_CALIBRATES;
