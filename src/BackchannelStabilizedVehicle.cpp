@@ -14,7 +14,9 @@
 #include <ReceiverTelemetryData.h>
 #include <SV_Telemetry.h>
 #include <SV_TelemetryData.h>
+#include <TaskBase.h>
 #include <VehicleControllerBase.h>
+
 
 BackchannelStabilizedVehicle::BackchannelStabilizedVehicle(
     BackchannelTransceiverBase& backchannelTransceiver,

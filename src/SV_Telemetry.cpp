@@ -3,6 +3,7 @@
 #include "SV_Telemetry.h"
 #include "SV_TelemetryData.h"
 
+#include <AHRS.h>
 #include <TaskBase.h>
 #include <VehicleControllerBase.h>
 
