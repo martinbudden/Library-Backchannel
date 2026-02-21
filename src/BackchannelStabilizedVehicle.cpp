@@ -3,19 +3,19 @@
 #include "BackchannelStabilizedVehicle.h"
 #include "BackchannelTransceiverBase.h"
 
-#include <AHRS.h>
+#include <ahrs.h>
 #if defined(FRAMEWORK_ARDUINO_ESP32)
 //#define USE_DEBUG_PRINTF_BACKCHANNEL
 #if defined(USE_DEBUG_PRINTF_BACKCHANNEL)
 #include <HardwareSerial.h>
 #endif
 #endif
-#include <ReceiverTelemetry.h>
-#include <ReceiverTelemetryData.h>
 #include <SV_Telemetry.h>
 #include <SV_TelemetryData.h>
-#include <TaskBase.h>
-#include <VehicleControllerBase.h>
+#include <receiver_telemetry.h>
+#include <receiver_telemetry_data.h>
+#include <task_base.h>
+#include <vehicle_controller_base.h>
 
 
 BackchannelStabilizedVehicle::BackchannelStabilizedVehicle(
@@ -23,7 +23,7 @@ BackchannelStabilizedVehicle::BackchannelStabilizedVehicle(
     const uint8_t* backchannelMacAddress,
     const uint8_t* myMacAddress,
     VehicleControllerBase& vehicleController,
-    AHRS& ahrs,
+    Ahrs& ahrs,
     const ReceiverBase& receiver
     ) :
     BackchannelStabilizedVehicle(backchannelTransceiver, backchannelMacAddress, myMacAddress, vehicleController, ahrs, receiver, nullptr)
@@ -35,7 +35,7 @@ BackchannelStabilizedVehicle::BackchannelStabilizedVehicle(
         const uint8_t* backchannelMacAddress,
         const uint8_t* myMacAddress,
         VehicleControllerBase& vehicleController,
-        AHRS& ahrs,
+        Ahrs& ahrs,
         const ReceiverBase& receiver,
         const TaskBase* mainTask
     ) :
@@ -159,10 +159,10 @@ bool BackchannelStabilizedVehicle::sendPacket(uint8_t subCommand)
     }
     case CommandPacketRequestData::REQUEST_TASK_INTERVAL_DATA: {
         const size_t len = packTelemetryData_TaskIntervals(_transmitDataBufferPtr, _telemetryID, _sequenceNumber,
-            *_ahrs.getTask(),
-            *_vehicleController.getTask(),
-            _mainTask ?  _mainTask->getTickCountDelta() : 0,
-            _backchannelTransceiver.getTickCountDeltaAndReset()
+            *_ahrs.get_task(),
+            *_vehicleController.get_task(),
+            _mainTask ?  _mainTask->get_tick_count_delta() : 0,
+            _backchannelTransceiver.get_tick_count_delta_and_reset()
         );
         //Serial.printf("tiLen:%d\r\n", len);
         sendData(_transmitDataBufferPtr, len);
@@ -172,8 +172,8 @@ bool BackchannelStabilizedVehicle::sendPacket(uint8_t subCommand)
         const size_t len = packTelemetryData_TaskIntervalsExtended(_transmitDataBufferPtr, _telemetryID, _sequenceNumber,
             _ahrs,
             _vehicleController,
-            _mainTask ? _mainTask->getTickCountDelta() : 0,
-            _backchannelTransceiver.getTickCountDeltaAndReset(),
+            _mainTask ? _mainTask->get_tick_count_delta() : 0,
+            _backchannelTransceiver.get_tick_count_delta_and_reset(),
             static_cast<uint32_t>(_receiver.get_dropped_packet_count_delta())
         );
         //Serial.printf("tiLen:%d\r\n", len);

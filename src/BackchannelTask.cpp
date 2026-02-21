@@ -1,7 +1,7 @@
 #include "BackchannelTask.h"
 #include "BackchannelBase.h"
-#include <TimeMicroseconds.h>
 #include <cassert>
+#include <time_microseconds.h>
 
 #if defined(FRAMEWORK_USE_FREERTOS)
 #if defined(FRAMEWORK_ESPIDF) || defined(FRAMEWORK_ARDUINO_ESP32)
@@ -22,17 +22,17 @@ loop() function for when not using FREERTOS
 */
 void BackchannelTask::loop()
 {
-    // calculate _tickCountDelta to get actual deltaT value, since we may have been delayed for more than taskIntervalTicks
+    // calculate _tick_count_delta to get actual deltaT value, since we may have been delayed for more than task_interval_ticks
 #if defined(FRAMEWORK_USE_FREERTOS)
-    const TickType_t tickCount = xTaskGetTickCount();
+    const TickType_t tick_count = xTaskGetTickCount();
 #else
-    const uint32_t tickCount = timeMs();
+    const uint32_t tick_count = time_ms();
 #endif
 
-    _tickCountDelta = tickCount - _tickCountPrevious;
-    _tickCountPrevious = tickCount;
+    _tick_count_delta = tick_count - _tick_count_previous;
+    _tick_count_previous = tick_count;
     // guard against the case of this while loop executing twice on the same tick interval
-    if (_tickCountDelta > 0) { // cppcheck-suppress knownConditionTrueFalse
+    if (_tick_count_delta > 0) { // cppcheck-suppress knownConditionTrueFalse
         if (_backchannel.processedReceivedPacket() == false) { // NOLINT(readability-simplify-boolean-expr)
             // we didn't receive a packet (which can trigger a subsequent send)
             // so send a telemetry packet, if any requests outstanding
@@ -47,19 +47,19 @@ Task function for the BackchannelTask.
 [[noreturn]] void BackchannelTask::task()
 {
 #if defined(FRAMEWORK_USE_FREERTOS)
-    const uint32_t taskIntervalTicks = pdMS_TO_TICKS(_taskIntervalMicroseconds / 1000);
-    assert(taskIntervalTicks > 0 && "BackchannelTask taskIntervalTicks is zero.");
-    _previousWakeTimeTicks = xTaskGetTickCount();
+    const uint32_t task_interval_ticks = pdMS_TO_TICKS(_task_interval_microseconds / 1000);
+    assert(task_interval_ticks > 0 && "BackchannelTask task_interval_ticks is zero.");
+    _previous_wake_time_ticks = xTaskGetTickCount();
 
     while (true) {
-        // delay until the end of the next taskIntervalTicks
+        // delay until the end of the next task_interval_ticks
 #if (tskKERNEL_VERSION_MAJOR > 10) || ((tskKERNEL_VERSION_MAJOR == 10) && (tskKERNEL_VERSION_MINOR >= 5))
-            const BaseType_t wasDelayed = xTaskDelayUntil(&_previousWakeTimeTicks, taskIntervalTicks);
-            if (wasDelayed) {
-                _wasDelayed = true;
+            const BaseType_t was_delayed = xTaskDelayUntil(&_previous_wake_time_ticks, task_interval_ticks);
+            if (was_delayed) {
+                _was_delayed = true;
             }
 #else
-            vTaskDelayUntil(&_previousWakeTimeTicks, taskIntervalTicks);
+            vTaskDelayUntil(&_previous_wake_time_ticks, task_interval_ticks);
 #endif
         if (_backchannel.processedReceivedPacket() == false) {
             // we didn't receive a packet (which can trigger a subsequent send)
@@ -75,7 +75,7 @@ Task function for the BackchannelTask.
 /*!
 Wrapper function for BackchannelTask::Task with the correct signature to be used in xTaskCreate.
 */
-[[noreturn]] void BackchannelTask::Task(void* arg)
+[[noreturn]] void BackchannelTask::task_static(void* arg)
 {
     const TaskBase::parameters_t* parameters = static_cast<TaskBase::parameters_t*>(arg);
 

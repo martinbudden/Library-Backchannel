@@ -4,7 +4,7 @@
 #include "CommandPacket.h"
 #include "SV_TelemetryData.h"
 
-#include <AHRS.h>
+#include <ahrs.h>
 
 #include <unity.h>
 
@@ -27,7 +27,7 @@ public:
     void WAIT_FOR_DATA_RECEIVED() override {}
     size_t getReceivedDataLength() const override { return 0; }
     void setReceivedDataLengthToZero() override {}
-    uint32_t getTickCountDeltaAndReset() override { return 0; }
+    uint32_t get_tick_count_delta_and_reset() override { return 0; }
 };
 
 void test_backchannel()
@@ -63,7 +63,7 @@ void test_sv_telemetry_data()
     static_assert(sizeof(TD_BLACKBOX_P) <= MAX_TD_MSP_PACKET_SIZE);
     static_assert(sizeof(TD_BLACKBOX_S) <= MAX_TD_MSP_PACKET_SIZE);
 
-    static_assert(TD_TASK_INTERVALS_EXTENDED::TIME_CHECKS_COUNT == AHRS::TIME_CHECKS_COUNT);
+    static_assert(TD_TASK_INTERVALS_EXTENDED::TIME_CHECKS_COUNT == Ahrs::TIME_CHECKS_COUNT);
 }
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char **argv)

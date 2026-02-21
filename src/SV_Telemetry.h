@@ -4,8 +4,8 @@
 #include <cstdint>
 
 struct ahrs_data_t;
-class AHRS;
-class AHRS_Task;
+class Ahrs;
+class AhrsTask;
 class TaskBase;
 class VehicleControllerBase;
 
@@ -21,14 +21,14 @@ size_t packTelemetryData_TaskIntervals(uint8_t* telemetryDataPtr, uint32_t id, u
         uint32_t transceiverTickCountDelta);
 
 size_t packTelemetryData_TaskIntervalsExtended(uint8_t* telemetryDataPtr, uint32_t id, uint32_t sequenceNumber,
-        const AHRS& ahrs,
+        const Ahrs& ahrs,
         const VehicleControllerBase& vehicleController,
         uint32_t mainTaskTickCountDelta,
         uint32_t transceiverTickCountDelta,
         uint32_t receiverDroppedPacketCount);
 
 size_t packTelemetryData_AHRS(uint8_t* telemetryDataPtr, uint32_t id, uint32_t sequenceNumber,
-        const AHRS& ahrs,
+        const Ahrs& ahrs,
         const ahrs_data_t& ahrsData);
 
 size_t packTelemetryData_PID(uint8_t* telemetryDataPtr, uint32_t id, uint32_t sequenceNumber,

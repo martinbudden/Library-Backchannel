@@ -21,19 +21,19 @@
 #endif
 
 
-BackchannelTask* BackchannelTask::createTask(BackchannelBase& backchannel, uint8_t priority, uint32_t core, uint32_t taskIntervalMicroseconds)
+BackchannelTask* BackchannelTask::create_task(BackchannelBase& backchannel, uint8_t priority, uint32_t core, uint32_t task_interval_microseconds)
 {
-    task_info_t taskInfo{};
-    return createTask(taskInfo, backchannel, priority, core, taskIntervalMicroseconds);
+    task_info_t task_info{};
+    return create_task(task_info, backchannel, priority, core, task_interval_microseconds);
 }
 
-BackchannelTask* BackchannelTask::createTask(task_info_t& taskInfo, BackchannelBase& backchannel, uint8_t priority, uint32_t core, uint32_t taskIntervalMicroseconds)
+BackchannelTask* BackchannelTask::create_task(task_info_t& task_info, BackchannelBase& backchannel, uint8_t priority, uint32_t core, uint32_t task_interval_microseconds)
 {
-    static BackchannelTask backchannelTask(taskIntervalMicroseconds, backchannel);
+    static BackchannelTask backchannel_task(task_interval_microseconds, backchannel);
 
     // Note that task parameters must not be on the stack, since they are used when the task is started, which is after this function returns.
-    static TaskBase::parameters_t taskParameters { // NOLINT(misc-const-correctness) false positive
-        .task = &backchannelTask
+    static TaskBase::parameters_t task_parameters { // NOLINT(misc-const-correctness) false positive
+        .task = &backchannel_task
     };
 #if !defined(BACKCHANNEL_TASK_STACK_DEPTH_BYTES)
     enum { BACKCHANNEL_TASK_STACK_DEPTH_BYTES = 4096 }; // 2048 probably sufficient when not using Serial.printf statements
@@ -43,60 +43,60 @@ BackchannelTask* BackchannelTask::createTask(task_info_t& taskInfo, BackchannelB
 #else
     static std::array <StackType_t, BACKCHANNEL_TASK_STACK_DEPTH_BYTES / sizeof(StackType_t)> stack;
 #endif
-    taskInfo = {
-        .taskHandle = nullptr,
+    task_info = {
+        .task_handle = nullptr,
         .name = "BackchannelTask", // max length 16, including zero terminator
-        .stackDepthBytes = BACKCHANNEL_TASK_STACK_DEPTH_BYTES,
-        .stackBuffer = reinterpret_cast<uint8_t*>(&stack[0]), // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
+        .stack_depth_bytes = BACKCHANNEL_TASK_STACK_DEPTH_BYTES,
+        .stack_buffer = reinterpret_cast<uint8_t*>(&stack[0]), // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
         .priority = priority,
         .core = core,
-        .taskIntervalMicroseconds = taskIntervalMicroseconds
+        .task_interval_microseconds = task_interval_microseconds
     };
 #if defined(FRAMEWORK_USE_FREERTOS)
-    assert(strlen(taskInfo.name) < configMAX_TASK_NAME_LEN && "Backchannel: taskname too long");
-    assert(taskInfo.priority < configMAX_PRIORITIES && "Backchannel: priority too high");
+    assert(strlen(task_info.name) < configMAX_TASK_NAME_LEN && "Backchannel: taskname too long");
+    assert(task_info.priority < configMAX_PRIORITIES && "Backchannel: priority too high");
 
     static StaticTask_t taskBuffer;
 #if defined(FRAMEWORK_ESPIDF) || defined(FRAMEWORK_ARDUINO_ESP32)
-    taskInfo.taskHandle = xTaskCreateStaticPinnedToCore(
-        BackchannelTask::Task,
-        taskInfo.name,
-        taskInfo.stackDepthBytes / sizeof(StackType_t),
-        &taskParameters,
-        taskInfo.priority,
+    task_info.task_handle = xTaskCreateStaticPinnedToCore(
+        BackchannelTask::task_static,
+        task_info.name,
+        task_info.stack_depth_bytes / sizeof(StackType_t),
+        &task_parameters,
+        task_info.priority,
         &stack[0],
         &taskBuffer,
-        taskInfo.core
+        task_info.core
     );
-    assert(taskInfo.taskHandle != nullptr && "Unable to create BackchannelTask");
+    assert(task_info.task_handle != nullptr && "Unable to create BackchannelTask");
 #elif defined(FRAMEWORK_RPI_PICO) || defined(FRAMEWORK_ARDUINO_RPI_PICO)
-    taskInfo.taskHandle = xTaskCreateStaticAffinitySet(
-        BackchannelTask::Task,
-        taskInfo.name,
-        taskInfo.stackDepthBytes / sizeof(StackType_t),
-        &taskParameters,
-        taskInfo.priority,
+    task_info.task_handle = xTaskCreateStaticAffinitySet(
+        BackchannelTask::task_static,
+        task_info.name,
+        task_info.stack_depth_bytes / sizeof(StackType_t),
+        &task_parameters,
+        task_info.priority,
         &stack[0],
         &taskBuffer,
-        taskInfo.core
+        task_info.core
     );
-    assert(taskInfo.taskHandle != nullptr && "Unable to create BackchannelTask");
+    assert(task_info.task_handle != nullptr && "Unable to create BackchannelTask");
 #else
-    taskInfo.taskHandle = xTaskCreateStatic(
-        BackchannelTask::Task,
-        taskInfo.name,
-        taskInfo.stackDepthBytes / sizeof(StackType_t),
-        &taskParameters,
-        taskInfo.priority,
+    task_info.task_handle = xTaskCreateStatic(
+        BackchannelTask::task_static,
+        task_info.name,
+        task_info.stack_depth_bytes / sizeof(StackType_t),
+        &task_parameters,
+        task_info.priority,
         &stack[0],
         &taskBuffer
     );
-    assert(taskInfo.taskHandle != nullptr && "Unable to create BackchannelTask");
-    // vTaskCoreAffinitySet(taskInfo.taskHandle, taskInfo.core);
+    assert(task_info.task_handle != nullptr && "Unable to create BackchannelTask");
+    // vTaskCoreAffinitySet(task_info.task_handle, task_info.core);
 #endif
 #else
-    (void)taskParameters;
+    (void)task_parameters;
 #endif // FRAMEWORK_USE_FREERTOS
 
-    return &backchannelTask;
+    return &backchannel_task;
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BackchannelTransceiverBase.h"
-#include <EspnowTransceiver.h>
+#include <espnow_transceiver.h>
 
 
 class BackchannelTransceiverESPNOW : public BackchannelTransceiverBase {
@@ -15,10 +15,10 @@ public:
     virtual void WAIT_FOR_DATA_RECEIVED() override;
     virtual size_t getReceivedDataLength() const override;
     virtual void setReceivedDataLengthToZero() override;
-    virtual uint32_t getTickCountDeltaAndReset() override;
+    virtual uint32_t get_tick_count_delta_and_reset() override;
 #if defined(LIBRARY_RECEIVER_USE_ESPNOW)
 protected:
-    EspnowTransceiver& _espnowTransceiver;
+    EspnowTransceiver& _espnow_transceiver;
     EspnowTransceiver::received_data_t _received_data;
     EspnowTransceiver::peer_data_t _peer_data {};
 #endif

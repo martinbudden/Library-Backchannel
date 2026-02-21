@@ -3,8 +3,8 @@
 #include "BackchannelBase.h"
 #include "CommandPacket.h"
 
-class AHRS;
-class AHRS_Task;
+class Ahrs;
+class AhrsTask;
 class ReceiverBase;
 class TaskBase;
 class VehicleControllerBase;
@@ -19,7 +19,7 @@ public:
         const uint8_t* backchannelMacAddress,
         const uint8_t* myMacAddress,
         VehicleControllerBase& vehicleController,
-        AHRS& ahrs,
+        Ahrs& ahrs,
         const ReceiverBase& receiver,
         const TaskBase* mainTask
     );
@@ -28,7 +28,7 @@ public:
         const uint8_t* backchannelMacAddress,
         const uint8_t* myMacAddress,
         VehicleControllerBase& vehicleController,
-        AHRS& ahrs,
+        Ahrs& ahrs,
         const ReceiverBase& receiver
     );
 public:
@@ -42,7 +42,7 @@ protected:
     virtual bool packetSetPID(const CommandPacketSetPID& packet);
 protected:
     VehicleControllerBase& _vehicleController;
-    AHRS& _ahrs;
+    Ahrs& _ahrs;
     const ReceiverBase& _receiver;
     const TaskBase* _mainTask;
     const uint32_t _backchannelID;

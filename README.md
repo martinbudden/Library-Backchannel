@@ -12,7 +12,7 @@ classDiagram
         WAIT_FOR_DATA_RECEIVED() *
         getReceivedDataLength() const size_t *
         setReceivedDataLengthToZero() *
-        getTickCountDeltaAndReset() uint32_t *
+        get_tick_count_delta_and_reset() uint32_t *
         #uint8_t _transmitDataBuffer[512]
         #uint8_t _receivedDataBuffer[256]
     }
@@ -48,7 +48,7 @@ classDiagram
     BackchannelStabilizedVehicle o-- VehicleControllerBase
 
     class TaskBase {
-        uint32_t _taskIntervalMicroseconds
+        uint32_t _task_interval_microseconds
     }
     TaskBase <|-- BackchannelTask
     class BackchannelTask {

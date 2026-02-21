@@ -13,7 +13,7 @@ public:
     virtual void WAIT_FOR_DATA_RECEIVED() = 0;
     virtual size_t getReceivedDataLength() const = 0;
     virtual void setReceivedDataLengthToZero() = 0;
-    virtual uint32_t getTickCountDeltaAndReset() = 0;
+    virtual uint32_t get_tick_count_delta_and_reset() = 0;
 
     uint8_t* getTransmitDataBufferPtr() { return &_transmitDataBuffer[0]; }
     size_t getTransmitDataBufferSize() const { return sizeof(_transmitDataBuffer); }
