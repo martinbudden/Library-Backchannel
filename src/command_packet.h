@@ -56,7 +56,7 @@ struct CommandPacketRequestData {
     uint8_t value_type;
 };
 
-struct CommandPacketSetPID {
+struct CommandPacketSetPid {
     enum { TYPE = 3 };
     enum {
         NO_ACTION = 0,
@@ -72,7 +72,7 @@ struct CommandPacketSetPID {
     uint32_t id;
 
     uint8_t type;
-    uint8_t len; // length of whole packet, ie sizeof(CommandPacketSetPID)
+    uint8_t len; // length of whole packet, ie sizeof(CommandPacketSetPid)
     uint8_t pid_index;
     uint8_t set_type;
 

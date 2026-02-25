@@ -33,10 +33,10 @@ void BackchannelTask::loop()
     _tick_count_previous = tick_count;
     // guard against the case of this while loop executing twice on the same tick interval
     if (_tick_count_delta > 0) { // cppcheck-suppress knownConditionTrueFalse
-        if (_backchannel.processed_received_packet() == false) { // NOLINT(readability-simplify-boolean-expr)
+        if (_backchannel.processed_received_packet(_parameter_group) == false) { // NOLINT(readability-simplify-boolean-expr)
             // we didn't receive a packet (which can trigger a subsequent send)
             // so send a telemetry packet, if any requests outstanding
-            _backchannel.send_packet();
+            _backchannel.send_packet(_parameter_group);
         }
     }
 }
@@ -61,10 +61,10 @@ Task function for the BackchannelTask.
 #else
             vTaskDelayUntil(&_previous_wake_time_ticks, task_interval_ticks);
 #endif
-        if (_backchannel.processed_received_packet() == false) {
+        if (_backchannel.processed_received_packet(_parameter_group) == false) {
             // we didn't receive a packet (which can trigger a subsequent send)
             // so send a telemetry packet, if any requests outstanding
-            _backchannel.send_packet();
+            _backchannel.send_packet(_parameter_group);
         }
     }
 #else

@@ -36,7 +36,7 @@ void test_backchannel()
     static_assert(sizeof(CommandPacketReserved) <= MAX_COMMAND_PACKET_SIZE);
     static_assert(sizeof(CommandPacketControl) <= MAX_COMMAND_PACKET_SIZE);
     static_assert(sizeof(CommandPacketRequestData) <= MAX_COMMAND_PACKET_SIZE);
-    static_assert(sizeof(CommandPacketSetPID) <= MAX_COMMAND_PACKET_SIZE);
+    static_assert(sizeof(CommandPacketSetPid) <= MAX_COMMAND_PACKET_SIZE);
     static_assert(sizeof(CommandPacketSetOffset) <= MAX_COMMAND_PACKET_SIZE);
     static_assert(sizeof(CommandPacketSetFilter) <= MAX_COMMAND_PACKET_SIZE);
 

@@ -30,7 +30,7 @@ Packs the tick interval telemetry data into a TD_TASK_INTERVALS_EXTENDED packet.
 */
 size_t pack_telemetry_data_task_intervals(uint8_t* telemetry_data_ptr, uint32_t id, uint32_t sequence_number,
         const TaskBase& ahrs_task,
-        const TaskBase& vehicle_controllerTask,
+        const TaskBase& vehicle_controller_task,
         uint32_t main_tasktick_count_delta,
         uint32_t transceiver_tick_count_delta)
 {
@@ -45,7 +45,7 @@ size_t pack_telemetry_data_task_intervals(uint8_t* telemetry_data_ptr, uint32_t 
     td->data = {
         .main_task_interval_ticks = static_cast<uint8_t>(main_tasktick_count_delta),
         .ahrs_task_interval_ticks = static_cast<uint8_t>(ahrs_task.get_tick_count_delta()),
-        .vc_task_interval_ticks = static_cast<uint8_t>(vehicle_controllerTask.get_tick_count_delta()),
+        .vc_task_interval_ticks = static_cast<uint8_t>(vehicle_controller_task.get_tick_count_delta()),
         .transceiver_tick_count_delta = static_cast<uint8_t>(transceiver_tick_count_delta)
     };
 
@@ -70,12 +70,12 @@ size_t pack_telemetry_data_task_intervals_extended(uint8_t* telemetry_data_ptr, 
     td->sub_type = 0;
     td->sequence_number = static_cast<uint8_t>(sequence_number);
 
-    const TaskBase* vehicle_controllerTask = vehicle_controller.get_task();
+    const TaskBase* vehicle_controller_task = vehicle_controller.get_task();
     const TaskBase* ahrs_task = ahrs.get_task();
 
     td->data.main_task_interval_ticks = static_cast<uint8_t>(main_tasktick_count_delta);
     td->data.ahrs_task_interval_ticks = static_cast<uint8_t>(ahrs_task->get_tick_count_delta());
-    td->data.vc_task_interval_ticks = static_cast<uint8_t>(vehicle_controllerTask->get_tick_count_delta());
+    td->data.vc_task_interval_ticks = static_cast<uint8_t>(vehicle_controller_task->get_tick_count_delta());
     td->data.transceiver_tick_count_delta = static_cast<uint8_t>(transceiver_tick_count_delta);
 
     td->data.ahrs_task_interval_microseconds = static_cast<uint16_t>(ahrs_task->get_time_microseconds_delta());
@@ -85,7 +85,7 @@ size_t pack_telemetry_data_task_intervals_extended(uint8_t* telemetry_data_ptr, 
         td->data.ahrsTimeChecksMicroseconds[ii] = static_cast<uint16_t>(ahrs.get_time_checks_microseconds(ii));
     }
 
-    td->data.vc_task_interval_microseconds = static_cast<uint16_t>(vehicle_controllerTask->get_time_microseconds_delta());
+    td->data.vc_task_interval_microseconds = static_cast<uint16_t>(vehicle_controller_task->get_time_microseconds_delta());
     td->data.vc_output_power_time_microseconds = static_cast<uint16_t>(vehicle_controller.get_output_power_time_microseconds());
 
     td->data.receiver_dropped_packet_count = static_cast<uint8_t>(receiver_dropped_packet_count);

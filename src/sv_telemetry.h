@@ -16,7 +16,7 @@ size_t pack_telemetry_data_minimal(uint8_t* telemetry_data_ptr, uint32_t id, uin
 
 size_t pack_telemetry_data_task_intervals(uint8_t* telemetry_data_ptr, uint32_t id, uint32_t sequence_number,
         const TaskBase& ahrs_task,
-        const TaskBase& vehicle_controllerTask,
+        const TaskBase& vehicle_controller_task,
         uint32_t main_tasktick_count_delta,
         uint32_t transceiver_tick_count_delta);
 

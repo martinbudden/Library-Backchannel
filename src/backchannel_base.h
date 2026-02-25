@@ -4,6 +4,8 @@
 #include <cstdint>
 
 class BackchannelTransceiverBase;
+struct backchannel_parameter_group_t;
+
 
 class BackchannelBase {
 protected:
@@ -14,9 +16,9 @@ public:
     void WAIT_FOR_DATA_RECEIVED();
     int send_data(const uint8_t* data, size_t len) const;
 
-    virtual bool processed_received_packet() = 0;
-    virtual bool send_packet(uint8_t sub_command) = 0;
-    bool send_packet() { return send_packet(0); }
+    virtual bool processed_received_packet(backchannel_parameter_group_t& pg) = 0;
+    virtual bool send_packet(backchannel_parameter_group_t& pg, uint8_t sub_command) = 0;
+    bool send_packet(backchannel_parameter_group_t& pg) { return send_packet(pg, 0); }
 
 protected:
     BackchannelTransceiverBase& _backchannel_transceiver;
