@@ -1,7 +1,7 @@
 #if !defined(LIBRARY_BACKCHANNEL_EXCLUDE_SV_TELEMETRY)
 
-#include "SV_Telemetry.h"
-#include "SV_TelemetryData.h"
+#include "sv_telemetry.h"
+#include "sv_telemetry_data.h"
 
 #include <ahrs.h>
 #include <task_base.h>

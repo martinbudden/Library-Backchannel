@@ -28,5 +28,5 @@
     "version": "0.1.14",
     "frameworks": "*",
     "platforms": "*",
-    "headers": ["BackchannelBase.h", "BackchannelStabilizedVehicle.h", "BackchannelTask.h", "BackchannelTransceiverBase.h", "BackchannelTransceiverESPNOW.h", "CommandPacket.h", "SV_Telemetry.h", "SV_TelemetryData.h" ]
+    "headers": ["backchannel_base.h", "backchannel_stabilized_vehicle.h", "backchannel_task.h", "backchannel_transceiver_base.h", "backchannel_transceiver_espnow.h", "command_packet.h", "sv_telemetry.h", "sv_telemetry_data.h" ]
 }

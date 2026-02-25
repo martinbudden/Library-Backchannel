@@ -1,7 +1,7 @@
 #pragma once
 
-#include "BackchannelBase.h"
-#include "CommandPacket.h"
+#include "backchannel_base.h"
+#include "command_packet.h"
 
 class Ahrs;
 class AhrsTask;

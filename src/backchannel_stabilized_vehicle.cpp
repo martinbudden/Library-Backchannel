@@ -1,7 +1,7 @@
 #if !defined(LIBRARY_BACKCHANNEL_EXCLUDE_BACKCHANNEL_STABILIZED_VEHICLE)
 
-#include "BackchannelStabilizedVehicle.h"
-#include "BackchannelTransceiverBase.h"
+#include "backchannel_stabilized_vehicle.h"
+#include "backchannel_transceiver_base.h"
 
 #include <ahrs.h>
 #if defined(FRAMEWORK_ARDUINO_ESP32)
@@ -10,10 +10,10 @@
 #include <HardwareSerial.h>
 #endif
 #endif
-#include <SV_Telemetry.h>
-#include <SV_TelemetryData.h>
 #include <receiver_telemetry.h>
 #include <receiver_telemetry_data.h>
+#include <sv_telemetry.h>
+#include <sv_telemetry_data.h>
 #include <task_base.h>
 #include <vehicle_controller_base.h>
 
