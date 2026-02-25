@@ -1,5 +1,4 @@
 #include "backchannel_base.h"
-#include "backchannel_stabilized_vehicle.h"
 #include "backchannel_transceiver_base.h"
 #include "command_packet.h"
 #include "sv_telemetry_data.h"
