@@ -52,8 +52,8 @@ struct CommandPacketRequestData {
     uint32_t id;
     uint8_t type;
     uint8_t len; // length of whole packet, ie sizeof(CommandPacketRequestData)
-    uint8_t requestType;
-    uint8_t valueType;
+    uint8_t request_type;
+    uint8_t value_type;
 };
 
 struct CommandPacketSetPID {
@@ -73,8 +73,8 @@ struct CommandPacketSetPID {
 
     uint8_t type;
     uint8_t len; // length of whole packet, ie sizeof(CommandPacketSetPID)
-    uint8_t pidIndex;
-    uint8_t setType;
+    uint8_t pid_index;
+    uint8_t set_type;
 
     float f0;
     uint8_t value;
@@ -90,7 +90,7 @@ struct CommandPacketSetOffset {
     uint32_t id;
     uint8_t type;
     uint8_t len; // length of whole packet, ie sizeof(CommandPacketSetOffset)
-    uint8_t setType;
+    uint8_t set_type;
     uint8_t filler;
     float value;
 };
@@ -104,8 +104,8 @@ struct CommandPacketSetFilter {
     uint32_t id;
     uint8_t type;
     uint8_t len; // length of whole packet, ie sizeof(CommandPacketSetFilter)
-    uint8_t itemIndex;
-    uint8_t filterType;
+    uint8_t item_index;
+    uint8_t filter_type;
     float value0;
     float value1;
     float value2;
@@ -114,7 +114,7 @@ struct CommandPacketSetFilter {
 
 /*
 NOTE: enough space is reserved for a full-size MSP packet, this is more than
-can be accommodated in an ESP_NOW packet, so size payloadSize must be checked
+can be accommodated in an ESP_NOW packet, so size payload_size must be checked
 before the packet is sent over ESP_NOW.
 */
 struct CommandPacketMSP {
@@ -130,11 +130,11 @@ struct CommandPacketMSP {
     };
 
     struct msp_t {
-        uint8_t headerDollar;
-        uint8_t headerM;
-        uint8_t headerDirection;
-        uint8_t payloadSize;
-        uint8_t messageType;
+        uint8_t header_dollar;
+        uint8_t header_m;
+        uint8_t header_direction;
+        uint8_t payload_size;
+        uint8_t message_type;
         std::array<uint8_t, MAX_MSP_DATA_SIZE - 5> payload; // includes checksum
     };
     union u {

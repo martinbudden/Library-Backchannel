@@ -23,10 +23,10 @@ void tearDown()
 
 class BackchannelTransceiverNull : public BackchannelTransceiverBase {
 public:
-    int sendData(const uint8_t* data, size_t len) const override { (void)data; (void)len; return 0; }
+    int send_data(const uint8_t* data, size_t len) const override { (void)data; (void)len; return 0; }
     void WAIT_FOR_DATA_RECEIVED() override {}
-    size_t getReceivedDataLength() const override { return 0; }
-    void setReceivedDataLengthToZero() override {}
+    size_t get_received_data_length() const override { return 0; }
+    void set_received_data_length_to_zero() override {}
     uint32_t get_tick_count_delta_and_reset() override { return 0; }
 };
 

@@ -15,38 +15,38 @@ Backchannel that sends and receives packets that contain data for a stabilized v
 class BackchannelStabilizedVehicle : public BackchannelBase {
 public:
     BackchannelStabilizedVehicle(
-        BackchannelTransceiverBase& backchannelTransceiver,
-        const uint8_t* backchannelMacAddress,
-        const uint8_t* myMacAddress,
-        VehicleControllerBase& vehicleController,
+        BackchannelTransceiverBase& backchannel_transceiver,
+        const uint8_t* backchannel_mac_address,
+        const uint8_t* my_mac_address,
+        VehicleControllerBase& vehicle_controller,
         Ahrs& ahrs,
         const ReceiverBase& receiver,
-        const TaskBase* mainTask
+        const TaskBase* main_task
     );
     BackchannelStabilizedVehicle(
-        BackchannelTransceiverBase& backchannelTransceiver,
-        const uint8_t* backchannelMacAddress,
-        const uint8_t* myMacAddress,
-        VehicleControllerBase& vehicleController,
+        BackchannelTransceiverBase& backchannel_transceiver,
+        const uint8_t* backchannel_mac_address,
+        const uint8_t* my_mac_address,
+        VehicleControllerBase& vehicle_controller,
         Ahrs& ahrs,
         const ReceiverBase& receiver
     );
 public:
-    virtual bool sendPacket(uint8_t subCommand) override;
-    static uint32_t idFromMacAddress(const uint8_t* macAddress);
+    virtual bool send_packet(uint8_t sub_command) override;
+    static uint32_t idFrom_mac_address(const uint8_t* mac_address);
 protected:
-    virtual bool processedReceivedPacket() override;
-    virtual bool packetRequestData(const CommandPacketRequestData& packet);
-    virtual bool packetSetOffset(const CommandPacketSetOffset& packet);
-    virtual bool packetControl(const CommandPacketControl& packet);
-    virtual bool packetSetPID(const CommandPacketSetPID& packet);
+    virtual bool processed_received_packet() override;
+    virtual bool packet_request_data(const CommandPacketRequestData& packet);
+    virtual bool packet_set_offset(const CommandPacketSetOffset& packet);
+    virtual bool packet_control(const CommandPacketControl& packet);
+    virtual bool packet_set_pid(const CommandPacketSetPID& packet);
 protected:
-    VehicleControllerBase& _vehicleController;
+    VehicleControllerBase& _vehicle_controller;
     Ahrs& _ahrs;
     const ReceiverBase& _receiver;
-    const TaskBase* _mainTask;
-    const uint32_t _backchannelID;
-    const uint32_t _telemetryID;
-    uint32_t _requestType { CommandPacketRequestData::REQUEST_STOP_SENDING_DATA }; // So on startup a reset screen packet is sent
-    uint32_t _sequenceNumber {0};
+    const TaskBase* _main_task;
+    const uint32_t _backchannel_id;
+    const uint32_t _telemetry_id;
+    uint32_t _request_type { CommandPacketRequestData::REQUEST_STOP_SENDING_DATA }; // So on startup a reset screen packet is sent
+    uint32_t _sequence_number {0};
 };

@@ -24,7 +24,7 @@ void BackchannelTask::loop()
 {
     // calculate _tick_count_delta to get actual deltaT value, since we may have been delayed for more than task_interval_ticks
 #if defined(FRAMEWORK_USE_FREERTOS)
-    const TickType_t tick_count = xTaskGetTickCount();
+    const Tick_type_t tick_count = xTaskGetTickCount();
 #else
     const uint32_t tick_count = time_ms();
 #endif
@@ -33,10 +33,10 @@ void BackchannelTask::loop()
     _tick_count_previous = tick_count;
     // guard against the case of this while loop executing twice on the same tick interval
     if (_tick_count_delta > 0) { // cppcheck-suppress knownConditionTrueFalse
-        if (_backchannel.processedReceivedPacket() == false) { // NOLINT(readability-simplify-boolean-expr)
+        if (_backchannel.processed_received_packet() == false) { // NOLINT(readability-simplify-boolean-expr)
             // we didn't receive a packet (which can trigger a subsequent send)
             // so send a telemetry packet, if any requests outstanding
-            _backchannel.sendPacket();
+            _backchannel.send_packet();
         }
     }
 }
@@ -54,17 +54,17 @@ Task function for the BackchannelTask.
     while (true) {
         // delay until the end of the next task_interval_ticks
 #if (tskKERNEL_VERSION_MAJOR > 10) || ((tskKERNEL_VERSION_MAJOR == 10) && (tskKERNEL_VERSION_MINOR >= 5))
-            const BaseType_t was_delayed = xTaskDelayUntil(&_previous_wake_time_ticks, task_interval_ticks);
+            const Base_type_t was_delayed = xTaskDelayUntil(&_previous_wake_time_ticks, task_interval_ticks);
             if (was_delayed) {
                 _was_delayed = true;
             }
 #else
             vTaskDelayUntil(&_previous_wake_time_ticks, task_interval_ticks);
 #endif
-        if (_backchannel.processedReceivedPacket() == false) {
+        if (_backchannel.processed_received_packet() == false) {
             // we didn't receive a packet (which can trigger a subsequent send)
             // so send a telemetry packet, if any requests outstanding
-            _backchannel.sendPacket();
+            _backchannel.send_packet();
         }
     }
 #else

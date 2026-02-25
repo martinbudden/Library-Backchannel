@@ -10,37 +10,37 @@ class TaskBase;
 class VehicleControllerBase;
 
 
-size_t packTelemetryData_Minimal(uint8_t* telemetryDataPtr, uint32_t id, uint32_t sequenceNumber);
+size_t pack_telemetry_data_minimal(uint8_t* telemetry_data_ptr, uint32_t id, uint32_t sequence_number);
 
 // NOLINTBEGIN(readability-avoid-const-params-in-decls)
 
-size_t packTelemetryData_TaskIntervals(uint8_t* telemetryDataPtr, uint32_t id, uint32_t sequenceNumber,
-        const TaskBase& ahrsTask,
-        const TaskBase& vehicleControllerTask,
-        uint32_t mainTaskTickCountDelta,
-        uint32_t transceiverTickCountDelta);
+size_t pack_telemetry_data_task_intervals(uint8_t* telemetry_data_ptr, uint32_t id, uint32_t sequence_number,
+        const TaskBase& ahrs_task,
+        const TaskBase& vehicle_controllerTask,
+        uint32_t main_tasktick_count_delta,
+        uint32_t transceiver_tick_count_delta);
 
-size_t packTelemetryData_TaskIntervalsExtended(uint8_t* telemetryDataPtr, uint32_t id, uint32_t sequenceNumber,
+size_t pack_telemetry_data_task_intervals_extended(uint8_t* telemetry_data_ptr, uint32_t id, uint32_t sequence_number,
         const Ahrs& ahrs,
-        const VehicleControllerBase& vehicleController,
-        uint32_t mainTaskTickCountDelta,
-        uint32_t transceiverTickCountDelta,
-        uint32_t receiverDroppedPacketCount);
+        const VehicleControllerBase& vehicle_controller,
+        uint32_t main_tasktick_count_delta,
+        uint32_t transceiver_tick_count_delta,
+        uint32_t receiver_dropped_packet_count);
 
-size_t packTelemetryData_AHRS(uint8_t* telemetryDataPtr, uint32_t id, uint32_t sequenceNumber,
+size_t pack_telemetry_data_ahrs(uint8_t* telemetry_data_ptr, uint32_t id, uint32_t sequence_number,
         const Ahrs& ahrs,
-        const ahrs_data_t& ahrsData);
+        const ahrs_data_t& ahrs_data);
 
-size_t packTelemetryData_PID(uint8_t* telemetryDataPtr, uint32_t id, uint32_t sequenceNumber,
-    const VehicleControllerBase& vehicleController,
-    uint8_t pidProfile,
-    uint8_t controlMode,
+size_t pack_telemetry_data_pid(uint8_t* telemetry_data_ptr, uint32_t id, uint32_t sequence_number,
+    const VehicleControllerBase& vehicle_controller,
+    uint8_t pid_profile,
+    uint8_t control_mode,
     float f0,
     float f1);
 
-size_t packTelemetryData_PID_Outputs(uint8_t* telemetryDataPtr, uint32_t id, uint32_t sequenceNumber,
-    const VehicleControllerBase& vehicleController,
-    uint8_t pidProfile,
-    uint8_t controlMode);
+size_t pack_telemetry_data_pid_outputs(uint8_t* telemetry_data_ptr, uint32_t id, uint32_t sequence_number,
+    const VehicleControllerBase& vehicle_controller,
+    uint8_t pid_profile,
+    uint8_t control_mode);
 
 // NOLINTEND(readability-avoid-const-params-in-decls)

@@ -16,8 +16,8 @@ struct TD_RESERVED {
 
     uint8_t type {TYPE};
     uint8_t len {sizeof(TD_RESERVED)}; //!< length of whole packet, ie sizeof(TD_RESERVED)
-    uint8_t subType {0};
-    uint8_t sequenceNumber {0};
+    uint8_t sub_type {0};
+    uint8_t sequence_number {0};
 };
 
 /*!
@@ -29,8 +29,8 @@ struct TD_MINIMAL {
 
     uint8_t type {TYPE};
     uint8_t len {sizeof(TD_MINIMAL)}; //!< length of whole packet, ie sizeof(TD_MINIMAL)
-    uint8_t subType {0};
-    uint8_t sequenceNumber {0};
+    uint8_t sub_type {0};
+    uint8_t sequence_number {0};
 };
 
 /*!
@@ -42,14 +42,14 @@ struct TD_TASK_INTERVALS {
 
     uint8_t type {TYPE};
     uint8_t len {sizeof(TD_TASK_INTERVALS)}; //!< length of whole packet, ie sizeof(TD_TASK_INTERVALS)
-    uint8_t subType {0};
-    uint8_t sequenceNumber {0};
+    uint8_t sub_type {0};
+    uint8_t sequence_number {0};
 
     struct data_t {
-        uint8_t mainTaskIntervalTicks; //!< tick interval of the MAIN_LOOP_TASK
-        uint8_t ahrsTaskIntervalTicks; //!< tick interval of the AHRS_TASK
-        uint8_t vcTaskIntervalTicks; //!< tick interval of the Vehicle Controller task
-        uint8_t transceiverTickCountDelta; //!< tick interval of the ESP_NOW transceiver
+        uint8_t main_task_interval_ticks; //!< tick interval of the MAIN_LOOP_TASK
+        uint8_t ahrs_task_interval_ticks; //!< tick interval of the AHRS_TASK
+        uint8_t vc_task_interval_ticks; //!< tick interval of the Vehicle Controller task
+        uint8_t transceiver_tick_count_delta; //!< tick interval of the ESP_NOW transceiver
     };
     data_t data {};
 };
@@ -63,22 +63,22 @@ struct TD_TASK_INTERVALS_EXTENDED {
 
     uint8_t type {TYPE};
     uint8_t len {sizeof(TD_TASK_INTERVALS_EXTENDED)}; //!< length of whole packet, ie sizeof(TD_TASK_INTERVALS)
-    uint8_t subType {0};
-    uint8_t sequenceNumber {0};
+    uint8_t sub_type {0};
+    uint8_t sequence_number {0};
 
     enum { TIME_CHECKS_COUNT = 8 };
     struct data_t {
-        uint8_t mainTaskIntervalTicks; //!< tick interval of the MAIN_LOOP_TASK
-        uint8_t ahrsTaskIntervalTicks; //!< tick interval of the AHRS_TASK
-        uint8_t vcTaskIntervalTicks; //!< tick interval of the Vehicle Controller task
-        uint8_t transceiverTickCountDelta; //!< tick interval of the ESP_NOW transceiver
+        uint8_t main_task_interval_ticks; //!< tick interval of the MAIN_LOOP_TASK
+        uint8_t ahrs_task_interval_ticks; //!< tick interval of the AHRS_TASK
+        uint8_t vc_task_interval_ticks; //!< tick interval of the Vehicle Controller task
+        uint8_t transceiver_tick_count_delta; //!< tick interval of the ESP_NOW transceiver
         std::array<uint16_t, TIME_CHECKS_COUNT> ahrsTimeChecksMicroseconds;
 
-        uint16_t ahrsTaskIntervalMicroseconds; //!< execution interval of AHRS_TASK in microseconds
-        uint16_t vcTaskIntervalMicroseconds; //!< execution interval of the Vehicle Controller task in microseconds
-        uint16_t vcOutputPowerTimeMicroseconds; //!< time taken to set the Vehicle output power
+        uint16_t ahrs_task_interval_microseconds; //!< execution interval of AHRS_TASK in microseconds
+        uint16_t vc_task_interval_microseconds; //!< execution interval of the Vehicle Controller task in microseconds
+        uint16_t vc_output_power_time_microseconds; //!< time taken to set the Vehicle output power
 
-        uint16_t receiverDroppedPacketCount; //!< the number of packets dropped by the receiver
+        uint16_t receiver_dropped_packet_count; //!< the number of packets dropped by the receiver
     };
     data_t data {};
 };
@@ -92,10 +92,10 @@ struct TD_AHRS {
 
     uint8_t type {TYPE};
     uint8_t len {sizeof(TD_AHRS)}; //!< length of whole packet, ie sizeof(TD_AHRS)
-    uint8_t subType {0};
-    uint8_t sequenceNumber {0};
+    uint8_t sub_type {0};
+    uint8_t sequence_number {0};
 
-    uint8_t taskIntervalTicks {0}; //!< interval of the AHRS task, in ticks
+    uint8_t task_interval_ticks {0}; //!< interval of the AHRS task, in ticks
     enum : uint8_t { IMU_AUTO_CALIBRATES = 0x01, SENSOR_FUSION_REQUIRES_INITIALIZATION = 0x02, SENSOR_FUSION_IS_INITIALIZING = 0x04};
     uint8_t flags {0};
     uint16_t reserved {0};
@@ -104,10 +104,10 @@ struct TD_AHRS {
         float roll; //!< estimated roll value calculated by Sensor Fusion Filter
         float pitch; //!< estimated pitch value calculated by Sensor Fusion Filter
         float yaw; //!< estimated yaw value calculated by Sensor Fusion Filter
-        xyz_t gyroRPS; //!< gyro outputs from IMU
+        xyz_t gyro_rps; //!< gyro outputs from IMU
         xyz_t acc; //!< acceleration outputs from IMU
-        xyz_t gyroOffset;
-        xyz_t accOffset;
+        xyz_t gyro_offset;
+        xyz_t acc_offset;
     };
     data_t data {};
 };
@@ -123,8 +123,8 @@ struct TD_PID {
 
     uint8_t type {TYPE};
     uint8_t len {sizeof(TD_PID)}; //!< length of whole packet, ie sizeof(TD_PID)
-    uint8_t subType {0};
-    uint8_t sequenceNumber {0};
+    uint8_t sub_type {0};
+    uint8_t sequence_number {0};
 
     struct PIDSK_t {
         uint16_t kp;
@@ -136,10 +136,10 @@ struct TD_PID {
     enum { TYPE_NOT_SET= 0, SELF_BALANCING_ROBOT = 1, AIRCRAFT = 2 };
     enum { MAX_PID_COUNT = 8 };  // allow up to 8 PIDs
     struct data_t {
-        uint8_t pidCount;
-        uint8_t pidProfile;
-        uint8_t vehicleType;
-        uint8_t controlMode;
+        uint8_t pid_count;
+        uint8_t pid_profile;
+        uint8_t vehicle_type;
+        uint8_t control_mode;
         // general use parameters
         float f0; // typically used for pitchBalanceAngleDegrees
         float f1;
@@ -160,8 +160,8 @@ struct TD_PID_EXTENDED {
 
     uint8_t type {TYPE};
     uint8_t len {sizeof(TD_PID_EXTENDED)}; //!< length of whole packet, ie sizeof(TD_PID_EXTENDED)
-    uint8_t subType {0};
-    uint8_t sequenceNumber {0};
+    uint8_t sub_type {0};
+    uint8_t sequence_number {0};
 
     enum vehicle_type_e { SELF_BALANCING_ROBOT = 0, AIRCRAFT = 1 };
     enum { MAX_PID_COUNT = 12 };  // allow up to 12 PIDs
@@ -178,10 +178,10 @@ struct TD_PID_EXTENDED {
         PIDSK_t pid;
     };
     struct data_t {
-        uint8_t pidCount;
-        uint8_t pidProfile;
-        uint8_t vehicleType;
-        uint8_t controlMode;
+        uint8_t pid_count;
+        uint8_t pid_profile;
+        uint8_t vehicle_type;
+        uint8_t control_mode;
         // general use parameters
         float f0; // typically used for pitchBalanceAngleDegrees
         float f1;
@@ -204,10 +204,10 @@ struct TD_PID_OUTPUTS {
     uint32_t id {0};
     uint8_t type {TYPE};
     uint8_t len {sizeof(TD_PID_OUTPUTS)}; //!< length of whole packet, ie sizeof(TD_FC_PID_ERRORS)
-    uint8_t subType {0};
-    uint8_t sequenceNumber {0};
+    uint8_t sub_type {0};
+    uint8_t sequence_number {0};
 
-    uint16_t taskIntervalTicks {0}; //!< tick interval of the VehicleController task
+    uint16_t task_interval_ticks {0}; //!< tick interval of the VehicleController task
     enum : uint16_t { MOTORS_ON_FLAG = 0x8000, CONTROL_MODE_MASK = 0x00FF };
     uint16_t flags {0};
 
@@ -219,10 +219,10 @@ struct TD_PID_OUTPUTS {
         float K;
     };
     struct data_t {
-        uint8_t pidCount;
-        uint8_t pidProfile;
-        uint8_t vehicleType;
-        uint8_t controlMode;
+        uint8_t pid_count;
+        uint8_t pid_profile;
+        uint8_t vehicle_type;
+        uint8_t control_mode;
         std::array<float, MAX_PID_COUNT> setpoints;
         // no need to store the final output from the PID, since it is the sum of all the errors
         std::array<pidsk_error_t, MAX_PID_COUNT> errors;
@@ -239,8 +239,8 @@ struct TD_DEBUG {
 
     uint8_t type {TYPE};
     uint8_t len {sizeof(TD_DEBUG)}; //!< length of whole packet, ie sizeof(TD_DEBUG)
-    uint8_t subType {0};
-    uint8_t sequenceNumber {0};
+    uint8_t sub_type {0};
+    uint8_t sequence_number {0};
 
     enum { VALUE_COUNT = 8 };
     struct data_t {
@@ -270,7 +270,7 @@ checksum - XOR of the size, type, and payload bytes.
 The checksum of a request (ie a message with no payload) equals the type.
 
 NOTE: enough space is reserved for a full-size MSP packet, this is more than
-can be accommodated in an ESP_NOW packet, so size payloadSize must be checked
+can be accommodated in an ESP_NOW packet, so size payload_size must be checked
 before the packet is sent over ESP_NOW.
 */
 
@@ -287,11 +287,11 @@ struct TD_MSP {
     };
 
     struct msp_t {
-        uint8_t headerDollar;
-        uint8_t headerM;
-        uint8_t headerDirection;
-        uint8_t payloadSize;
-        uint8_t messageType;
+        uint8_t header_dollar;
+        uint8_t header_m;
+        uint8_t header_direction;
+        uint8_t payload_size;
+        uint8_t message_type;
         std::array<uint8_t, MAX_MSP_DATA_SIZE - 5> payload; // includes checksum
     };
     union u {
@@ -315,10 +315,10 @@ struct TD_FC_QUADCOPTER {
     uint32_t id {0};
     uint8_t type {TYPE};
     uint8_t len {sizeof(TD_FC_QUADCOPTER)}; //!< length of whole packet, ie sizeof(TD_FC_QUADCOPTER)
-    uint8_t subType {0};
-    uint8_t sequenceNumber {0};
+    uint8_t sub_type {0};
+    uint8_t sequence_number {0};
 
-    uint16_t taskIntervalTicks {0}; //!< tick interval of the FC task
+    uint16_t task_interval_ticks {0}; //!< tick interval of the FC task
     enum : uint16_t { MOTORS_ON_FLAG = 0x8000, CONTROL_MODE_MASK = 0x00FF };
     uint16_t flags {0};
 
@@ -346,7 +346,7 @@ struct TD_BLACKBOX_E {
     enum { ESP_NOW_MAX_DATA_SIZE = 250 };
 
     struct blackbox_t {
-        uint8_t headerI;
+        uint8_t header_i;
         std::array<uint8_t, MAX_BLACKBOX_DATA_SIZE - 1> payload;
     };
     union u {
@@ -364,7 +364,7 @@ struct TD_BLACKBOX_I {
     enum { ESP_NOW_MAX_DATA_SIZE = 250 };
 
     struct blackbox_t {
-        uint8_t headerI;
+        uint8_t header_i;
         std::array<uint8_t, MAX_BLACKBOX_DATA_SIZE - 1> payload;
     };
     union u {
@@ -382,7 +382,7 @@ struct TD_BLACKBOX_P {
     enum { ESP_NOW_MAX_DATA_SIZE = 250 };
 
     struct blackbox_t {
-        uint8_t headerI;
+        uint8_t header_i;
         std::array<uint8_t, MAX_BLACKBOX_DATA_SIZE - 1> payload;
     };
     union u {
@@ -400,7 +400,7 @@ struct TD_BLACKBOX_S {
     enum { ESP_NOW_MAX_DATA_SIZE = 250 };
 
     struct blackbox_t {
-        uint8_t headerI;
+        uint8_t header_i;
         std::array<uint8_t, MAX_BLACKBOX_DATA_SIZE - 1> payload;
     };
     union u {
@@ -416,23 +416,23 @@ TYPE RANGE of 100-109 reserved for Self Balancing Robots
 */
 
 struct motor_pair_controller_telemetry_t {
-    int32_t encoderLeft {0}; //!< value read from left motor encoder, raw
-    int32_t encoderRight {0}; //!< value read from right motor encoder, raw
-    int16_t encoderLeftDelta {0}; //!< difference between current left motor encoder value and previous value, raw
-    int16_t encoderRightDelta {0}; //!< difference between current right motor encoder value and previous value, raw
+    int32_t encoder_left {0}; //!< value read from left motor encoder, raw
+    int32_t encoder_right {0}; //!< value read from right motor encoder, raw
+    int16_t encoder_left_delta {0}; //!< difference between current left motor encoder value and previous value, raw
+    int16_t encoder_right_delta {0}; //!< difference between current right motor encoder value and previous value, raw
 
-    float motorMaxSpeedDPS {0};
-    float speedLeftDPS {0}; //!< rotation speed of left motor, degrees per second
-    float speedRightDPS {0}; //!< rotation speed of right motor, degrees per second
-    float speedDPS_Filtered {0}; //!< speed calculated as the average of speedLeftDPS and speedRightDPS, then filtered
+    float motor_max_speed_dps {0};
+    float speed_left_dps {0}; //!< rotation speed of left motor, degrees per second
+    float speed_right_dps {0}; //!< rotation speed of right motor, degrees per second
+    float speed_dps_Filtered {0}; //!< speed calculated as the average of speed_left_dps and speed_right_dps, then filtered
 
-    float powerLeft {0}; //!< power value sent to left motor
-    float powerRight {0}; //!< power value sent to right motor
+    float power_left {0}; //!< power value sent to left motor
+    float power_right {0}; //!< power value sent to right motor
 
-    float pitchAngleOutput {0}; //!< pitch output value calculated by PID
-    float speedOutput {0}; //!< speed output value calculated by PID
-    float positionOutput {0}; //!< position output value calculated by PID
-    float yawRateOutput {0}; //!< yawRate output value calculated by PID
+    float pitch_angle_output {0}; //!< pitch output value calculated by PID
+    float speed_output {0}; //!< speed output value calculated by PID
+    float position_output {0}; //!< position output value calculated by PID
+    float yawRate_output {0}; //!< yawRate output value calculated by PID
 
     struct pidsk_error_t {
         float P;
@@ -441,9 +441,9 @@ struct motor_pair_controller_telemetry_t {
         float S;
         float K;
     };
-    pidsk_error_t pitchError {0, 0, 0, 0, 0}; //!< P, I, D, F, and S errors calculated in pitch PID update
-    pidsk_error_t speedError {0, 0, 0, 0, 0}; //!< P, I, D, F, and S errors calculated in speed PID update
-    pidsk_error_t positionError {0, 0, 0, 0, 0}; //!< P, I, D, F, and S errors calculated in yawRate PID update
+    pidsk_error_t pitch_error {0, 0, 0, 0, 0}; //!< P, I, D, F, and S errors calculated in pitch PID update
+    pidsk_error_t speed_error {0, 0, 0, 0, 0}; //!< P, I, D, F, and S errors calculated in speed PID update
+    pidsk_error_t position_error {0, 0, 0, 0, 0}; //!< P, I, D, F, and S errors calculated in yawRate PID update
 };
 
 /*!
@@ -455,12 +455,12 @@ struct TD_MPC {
 
     uint8_t type {TYPE};
     uint8_t len {sizeof(TD_MPC)}; //!< length of whole packet, ie sizeof(TD_MPC)
-    uint8_t subType {0};
-    uint8_t sequenceNumber {0};
+    uint8_t sub_type {0};
+    uint8_t sequence_number {0};
 
-    uint8_t taskIntervalTicks {0}; //!< interval of the MPC task, in ticks
+    uint8_t task_interval_ticks {0}; //!< interval of the MPC task, in ticks
     uint8_t motors {0};
-    uint8_t controlMode {0};
+    uint8_t control_mode {0};
     uint8_t filler {0};
     motor_pair_controller_telemetry_t data {};
 };
@@ -474,8 +474,8 @@ struct TD_SBR_PID {
 
     uint8_t type {TYPE};
     uint8_t len {sizeof(TD_SBR_PID)}; //!< length of whole packet, ie sizeof(TD_SBR_PID)
-    uint8_t subType {0};
-    uint8_t sequenceNumber {0};
+    uint8_t sub_type {0};
+    uint8_t sequence_number {0};
 
     enum { ROLL_ANGLE=0, PITCH_ANGLE=1, YAW_RATE=2, SPEED_SERIAL=3, SPEED_PARALLEL=4, POSITION=5, PID_COUNT=6, PID_BEGIN=0 };
     struct PIDSK_t {

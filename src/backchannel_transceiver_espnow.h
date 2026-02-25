@@ -4,17 +4,17 @@
 #include <espnow_transceiver.h>
 
 
-class BackchannelTransceiverESPNOW : public BackchannelTransceiverBase {
+class BackchannelTransceiverEspnow : public BackchannelTransceiverBase {
 public:
-    BackchannelTransceiverESPNOW(
-        EspnowTransceiver& espnowTransceiver,
-        const uint8_t* backchannelMacAddress
+    BackchannelTransceiverEspnow(
+        EspnowTransceiver& espnow_transceiver,
+        const uint8_t* backchannel_mac_address
     );
 public:
-    virtual int sendData(const uint8_t* data, size_t len) const override;
+    virtual int send_data(const uint8_t* data, size_t len) const override;
     virtual void WAIT_FOR_DATA_RECEIVED() override;
-    virtual size_t getReceivedDataLength() const override;
-    virtual void setReceivedDataLengthToZero() override;
+    virtual size_t get_received_data_length() const override;
+    virtual void set_received_data_length_to_zero() override;
     virtual uint32_t get_tick_count_delta_and_reset() override;
 #if defined(LIBRARY_RECEIVER_USE_ESPNOW)
 protected:

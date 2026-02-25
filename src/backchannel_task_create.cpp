@@ -41,7 +41,7 @@ BackchannelTask* BackchannelTask::create_task(task_info_t& task_info, Backchanne
 #if defined(FRAMEWORK_ESPIDF) || defined(FRAMEWORK_ARDUINO_ESP32) || !defined(FRAMEWORK_USE_FREERTOS)
     static std::array <uint8_t, BACKCHANNEL_TASK_STACK_DEPTH_BYTES> stack;
 #else
-    static std::array <StackType_t, BACKCHANNEL_TASK_STACK_DEPTH_BYTES / sizeof(StackType_t)> stack;
+    static std::array <Stack_type_t, BACKCHANNEL_TASK_STACK_DEPTH_BYTES / sizeof(Stack_type_t)> stack;
 #endif
     task_info = {
         .task_handle = nullptr,
@@ -61,7 +61,7 @@ BackchannelTask* BackchannelTask::create_task(task_info_t& task_info, Backchanne
     task_info.task_handle = xTaskCreateStaticPinnedToCore(
         BackchannelTask::task_static,
         task_info.name,
-        task_info.stack_depth_bytes / sizeof(StackType_t),
+        task_info.stack_depth_bytes / sizeof(Stack_type_t),
         &task_parameters,
         task_info.priority,
         &stack[0],
@@ -73,7 +73,7 @@ BackchannelTask* BackchannelTask::create_task(task_info_t& task_info, Backchanne
     task_info.task_handle = xTaskCreateStaticAffinitySet(
         BackchannelTask::task_static,
         task_info.name,
-        task_info.stack_depth_bytes / sizeof(StackType_t),
+        task_info.stack_depth_bytes / sizeof(Stack_type_t),
         &task_parameters,
         task_info.priority,
         &stack[0],
@@ -85,7 +85,7 @@ BackchannelTask* BackchannelTask::create_task(task_info_t& task_info, Backchanne
     task_info.task_handle = xTaskCreateStatic(
         BackchannelTask::task_static,
         task_info.name,
-        task_info.stack_depth_bytes / sizeof(StackType_t),
+        task_info.stack_depth_bytes / sizeof(Stack_type_t),
         &task_parameters,
         task_info.priority,
         &stack[0],

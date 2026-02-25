@@ -8,39 +8,39 @@ This library contains a number of classes that can be the basis for a Backchanne
 classDiagram
     class BackchannelTransceiverBase {
         <<abstract>>
-        sendData() const int *
+        send_data() const int *
         WAIT_FOR_DATA_RECEIVED() *
-        getReceivedDataLength() const size_t *
-        setReceivedDataLengthToZero() *
+        get_received_data_length() const size_t *
+        set_received_data_length_to_zero() *
         get_tick_count_delta_and_reset() uint32_t *
-        #uint8_t _transmitDataBuffer[512]
-        #uint8_t _receivedDataBuffer[256]
+        #uint8_t _transmit_data_buffer[512]
+        #uint8_t _received_data_buffer[256]
     }
 
     class BackchannelBase {
         <<abstract>>
         WAIT_FOR_DATA_RECEIVED()
-        sendData() const int
-        processedReceivedPacket() bool *
-        sendPacket() bool *
+        send_data() const int
+        processed_received_packet() bool *
+        send_packet() bool *
     }
-    BackchannelBase o-- BackchannelTransceiverBase : calls WAIT_FOR_DATA_RECEIVED sendData
+    BackchannelBase o-- BackchannelTransceiverBase : calls WAIT_FOR_DATA_RECEIVED send_data
 
     BackchannelTransceiverBase <|-- BackchannelTransceiverUDP
 
-    BackchannelTransceiverBase <|-- BackchannelTransceiverESPNOW
-    BackchannelTransceiverESPNOW o-- EspnowTransceiver
+    BackchannelTransceiverBase <|-- BackchannelTransceiverEspnow
+    BackchannelTransceiverEspnow o-- EspnowTransceiver
 
     BackchannelBase <|-- BackchannelStabilizedVehicle
     class BackchannelStabilizedVehicle {
-        _backchannelID uint32_t
-        _telemetryID uint32_t
-        +sendPacket(uint8_t subCommand) bool override;
-        #processedReceivedPacket() bool override;
-        #virtual packetRequestData() bool
-        #virtual packetSetOffset() bool
-        #virtual packetControl() bool
-        #virtual packetSetPID() bool
+        _backchannel_id uint32_t
+        _telemetry_id uint32_t
+        +send_packet(uint8_t sub_command) bool override;
+        #processed_received_packet() bool override;
+        #virtual packet_request_data() bool
+        #virtual packet_set_offset() bool
+        #virtual packet_control() bool
+        #virtual packet_set_pid() bool
     }
     BackchannelStabilizedVehicle o-- MainTask
     BackchannelStabilizedVehicle o-- AHRS
@@ -55,5 +55,5 @@ classDiagram
         +loop()
         -task() [[noreturn]]
     }
-    BackchannelTask o-- BackchannelBase : calls processedReceivedPacket sendPacket
+    BackchannelTask o-- BackchannelBase : calls processed_received_packet send_packet
 ```

@@ -7,21 +7,21 @@ class BackchannelTransceiverBase;
 
 class BackchannelBase {
 protected:
-    BackchannelBase(BackchannelTransceiverBase& backchannelTransceiver);
+    BackchannelBase(BackchannelTransceiverBase& backchannel_transceiver);
 public:
     virtual ~BackchannelBase() = default;
 
     void WAIT_FOR_DATA_RECEIVED();
-    int sendData(const uint8_t* data, size_t len) const;
+    int send_data(const uint8_t* data, size_t len) const;
 
-    virtual bool processedReceivedPacket() = 0;
-    virtual bool sendPacket(uint8_t subCommand) = 0;
-    bool sendPacket() { return sendPacket(0); }
+    virtual bool processed_received_packet() = 0;
+    virtual bool send_packet(uint8_t sub_command) = 0;
+    bool send_packet() { return send_packet(0); }
 
 protected:
-    BackchannelTransceiverBase& _backchannelTransceiver;
-    uint8_t* _transmitDataBufferPtr {};
-    const size_t _transmitDataBufferSize {};
-    uint8_t* _receivedDataBufferPtr {};
-    const size_t _receivedDataBufferSize {};
+    BackchannelTransceiverBase& _backchannel_transceiver;
+    uint8_t* _transmit_data_buffer_ptr {};
+    const size_t _transmit_data_buffer_size {};
+    uint8_t* _received_data_buffer_ptr {};
+    const size_t _received_data_buffer_size {};
 };

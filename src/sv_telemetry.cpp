@@ -11,16 +11,16 @@
 /*!
 Packs the TD_Minimal packet with zeros. Returns the length of the packet.
 */
-size_t packTelemetryData_Minimal(uint8_t* telemetryDataPtr, uint32_t id, uint32_t sequenceNumber)
+size_t pack_telemetry_data_minimal(uint8_t* telemetry_data_ptr, uint32_t id, uint32_t sequence_number)
 {
-    TD_MINIMAL* td = reinterpret_cast<TD_MINIMAL*>(telemetryDataPtr); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast,hicpp-use-auto,modernize-use-auto)
+    TD_MINIMAL* td = reinterpret_cast<TD_MINIMAL*>(telemetry_data_ptr); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast,hicpp-use-auto,modernize-use-auto)
 
     td->id = id;
 
     td->type = TD_MINIMAL::TYPE;
     td->len = sizeof(TD_MINIMAL);
-    td->subType = 0;
-    td->sequenceNumber = static_cast<uint8_t>(sequenceNumber);
+    td->sub_type = 0;
+    td->sequence_number = static_cast<uint8_t>(sequence_number);
 
     return td->len;
 }
@@ -28,25 +28,25 @@ size_t packTelemetryData_Minimal(uint8_t* telemetryDataPtr, uint32_t id, uint32_
 /*!
 Packs the tick interval telemetry data into a TD_TASK_INTERVALS_EXTENDED packet. Returns the length of the packet.
 */
-size_t packTelemetryData_TaskIntervals(uint8_t* telemetryDataPtr, uint32_t id, uint32_t sequenceNumber,
-        const TaskBase& ahrsTask,
-        const TaskBase& vehicleControllerTask,
-        uint32_t mainTaskTickCountDelta,
-        uint32_t transceiverTickCountDelta)
+size_t pack_telemetry_data_task_intervals(uint8_t* telemetry_data_ptr, uint32_t id, uint32_t sequence_number,
+        const TaskBase& ahrs_task,
+        const TaskBase& vehicle_controllerTask,
+        uint32_t main_tasktick_count_delta,
+        uint32_t transceiver_tick_count_delta)
 {
-    TD_TASK_INTERVALS* td = reinterpret_cast<TD_TASK_INTERVALS*>(telemetryDataPtr); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast,hicpp-use-auto,modernize-use-auto)
+    TD_TASK_INTERVALS* td = reinterpret_cast<TD_TASK_INTERVALS*>(telemetry_data_ptr); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast,hicpp-use-auto,modernize-use-auto)
 
     td->id = id;
     td->type = TD_TASK_INTERVALS::TYPE;
     td->len = sizeof(TD_TASK_INTERVALS);
-    td->subType = 0;
-    td->sequenceNumber = static_cast<uint8_t>(sequenceNumber);
+    td->sub_type = 0;
+    td->sequence_number = static_cast<uint8_t>(sequence_number);
 
     td->data = {
-        .mainTaskIntervalTicks = static_cast<uint8_t>(mainTaskTickCountDelta),
-        .ahrsTaskIntervalTicks = static_cast<uint8_t>(ahrsTask.get_tick_count_delta()),
-        .vcTaskIntervalTicks = static_cast<uint8_t>(vehicleControllerTask.get_tick_count_delta()),
-        .transceiverTickCountDelta = static_cast<uint8_t>(transceiverTickCountDelta)
+        .main_task_interval_ticks = static_cast<uint8_t>(main_tasktick_count_delta),
+        .ahrs_task_interval_ticks = static_cast<uint8_t>(ahrs_task.get_tick_count_delta()),
+        .vc_task_interval_ticks = static_cast<uint8_t>(vehicle_controllerTask.get_tick_count_delta()),
+        .transceiver_tick_count_delta = static_cast<uint8_t>(transceiver_tick_count_delta)
     };
 
     return td->len;
@@ -55,40 +55,40 @@ size_t packTelemetryData_TaskIntervals(uint8_t* telemetryDataPtr, uint32_t id, u
 /*!
 Packs the tick interval telemetry data into a TD_TASK_INTERVALS_EXTENDED packet. Returns the length of the packet.
 */
-size_t packTelemetryData_TaskIntervalsExtended(uint8_t* telemetryDataPtr, uint32_t id, uint32_t sequenceNumber,
+size_t pack_telemetry_data_task_intervals_extended(uint8_t* telemetry_data_ptr, uint32_t id, uint32_t sequence_number,
         const Ahrs& ahrs,
-        const VehicleControllerBase& vehicleController,
-        uint32_t mainTaskTickCountDelta,
-        uint32_t transceiverTickCountDelta,
-        uint32_t receiverDroppedPacketCount)
+        const VehicleControllerBase& vehicle_controller,
+        uint32_t main_tasktick_count_delta,
+        uint32_t transceiver_tick_count_delta,
+        uint32_t receiver_dropped_packet_count)
 {
-    TD_TASK_INTERVALS_EXTENDED* td = reinterpret_cast<TD_TASK_INTERVALS_EXTENDED*>(telemetryDataPtr); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast,hicpp-use-auto,modernize-use-auto)
+    TD_TASK_INTERVALS_EXTENDED* td = reinterpret_cast<TD_TASK_INTERVALS_EXTENDED*>(telemetry_data_ptr); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast,hicpp-use-auto,modernize-use-auto)
 
     td->id = id;
     td->type = TD_TASK_INTERVALS_EXTENDED::TYPE;
     td->len = sizeof(TD_TASK_INTERVALS_EXTENDED);
-    td->subType = 0;
-    td->sequenceNumber = static_cast<uint8_t>(sequenceNumber);
+    td->sub_type = 0;
+    td->sequence_number = static_cast<uint8_t>(sequence_number);
 
-    const TaskBase* vehicleControllerTask = vehicleController.get_task();
-    const TaskBase* ahrsTask = ahrs.get_task();
+    const TaskBase* vehicle_controllerTask = vehicle_controller.get_task();
+    const TaskBase* ahrs_task = ahrs.get_task();
 
-    td->data.mainTaskIntervalTicks = static_cast<uint8_t>(mainTaskTickCountDelta);
-    td->data.ahrsTaskIntervalTicks = static_cast<uint8_t>(ahrsTask->get_tick_count_delta());
-    td->data.vcTaskIntervalTicks = static_cast<uint8_t>(vehicleControllerTask->get_tick_count_delta());
-    td->data.transceiverTickCountDelta = static_cast<uint8_t>(transceiverTickCountDelta);
+    td->data.main_task_interval_ticks = static_cast<uint8_t>(main_tasktick_count_delta);
+    td->data.ahrs_task_interval_ticks = static_cast<uint8_t>(ahrs_task->get_tick_count_delta());
+    td->data.vc_task_interval_ticks = static_cast<uint8_t>(vehicle_controllerTask->get_tick_count_delta());
+    td->data.transceiver_tick_count_delta = static_cast<uint8_t>(transceiver_tick_count_delta);
 
-    td->data.ahrsTaskIntervalMicroseconds = static_cast<uint16_t>(ahrsTask->get_time_microseconds_delta());
+    td->data.ahrs_task_interval_microseconds = static_cast<uint16_t>(ahrs_task->get_time_microseconds_delta());
 
     static_assert(TD_TASK_INTERVALS_EXTENDED::TIME_CHECKS_COUNT == Ahrs::TIME_CHECKS_COUNT);
     for (size_t ii = 0; ii < TD_TASK_INTERVALS_EXTENDED::TIME_CHECKS_COUNT; ++ii) {
         td->data.ahrsTimeChecksMicroseconds[ii] = static_cast<uint16_t>(ahrs.get_time_checks_microseconds(ii));
     }
 
-    td->data.vcTaskIntervalMicroseconds = static_cast<uint16_t>(vehicleControllerTask->get_time_microseconds_delta());
-    td->data.vcOutputPowerTimeMicroseconds = static_cast<uint16_t>(vehicleController.get_output_power_time_microseconds());
+    td->data.vc_task_interval_microseconds = static_cast<uint16_t>(vehicle_controllerTask->get_time_microseconds_delta());
+    td->data.vc_output_power_time_microseconds = static_cast<uint16_t>(vehicle_controller.get_output_power_time_microseconds());
 
-    td->data.receiverDroppedPacketCount = static_cast<uint8_t>(receiverDroppedPacketCount);
+    td->data.receiver_dropped_packet_count = static_cast<uint8_t>(receiver_dropped_packet_count);
 
     return td->len;
 }
@@ -96,28 +96,28 @@ size_t packTelemetryData_TaskIntervalsExtended(uint8_t* telemetryDataPtr, uint32
 /*!
 Packs the AHRS telemetry data into a TD_AHRS packet. Returns the length of the packet.
 */
-size_t packTelemetryData_AHRS(uint8_t* telemetryDataPtr, uint32_t id, uint32_t sequenceNumber, const Ahrs& ahrs, const ahrs_data_t& ahrsData)
+size_t pack_telemetry_data_ahrs(uint8_t* telemetry_data_ptr, uint32_t id, uint32_t sequence_number, const Ahrs& ahrs, const ahrs_data_t& ahrs_data)
 {
-    TD_AHRS* td = reinterpret_cast<TD_AHRS*>(telemetryDataPtr); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast,hicpp-use-auto,modernize-use-auto)
+    TD_AHRS* td = reinterpret_cast<TD_AHRS*>(telemetry_data_ptr); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast,hicpp-use-auto,modernize-use-auto)
 
     td->id = id;
     td->type = TD_AHRS::TYPE;
     td->len = sizeof(TD_AHRS);
-    td->subType = 0;
-    td->sequenceNumber = static_cast<uint8_t>(sequenceNumber);
+    td->sub_type = 0;
+    td->sequence_number = static_cast<uint8_t>(sequence_number);
 
     td->data = {
         // roll, pitch, and yaw to be filled in by caller
         .roll = 0.0F,
         .pitch = 0.0F,
         .yaw = 0.0F,
-        .gyroRPS = ahrsData.acc_gyro_rps.gyro_rps,
-        .acc = ahrsData.acc_gyro_rps.acc,
-        .gyroOffset = ahrs.get_gyro_offset_mapped(),
-        .accOffset = ahrs.get_acc_offset_mapped(),
+        .gyro_rps = ahrs_data.acc_gyro_rps.gyro_rps,
+        .acc = ahrs_data.acc_gyro_rps.acc,
+        .gyro_offset = ahrs.get_gyro_offset_mapped(),
+        .acc_offset = ahrs.get_acc_offset_mapped(),
     };
 
-    td->taskIntervalTicks = 0; // to be filled in by the caller
+    td->task_interval_ticks = 0; // to be filled in by the caller
 
     const uint32_t flags = ahrs.get_flags();
     td->flags = (flags & Ahrs::SENSOR_FUSION_REQUIRES_INITIALIZATION) ? TD_AHRS::SENSOR_FUSION_REQUIRES_INITIALIZATION : 0;
@@ -131,27 +131,27 @@ size_t packTelemetryData_AHRS(uint8_t* telemetryDataPtr, uint32_t id, uint32_t s
 /*!
 Packs the VehicleController PID telemetry data into a TD_PID packet. Returns the length of the packet.
 */
-size_t packTelemetryData_PID(uint8_t* telemetryDataPtr, uint32_t id, uint32_t sequenceNumber, const VehicleControllerBase& vehicleController, uint8_t pidProfile, uint8_t controlMode, float f0, float f1)
+size_t pack_telemetry_data_pid(uint8_t* telemetry_data_ptr, uint32_t id, uint32_t sequence_number, const VehicleControllerBase& vehicle_controller, uint8_t pid_profile, uint8_t control_mode, float f0, float f1)
 {
-    TD_PID* td = reinterpret_cast<TD_PID*>(telemetryDataPtr); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast,hicpp-use-auto,modernize-use-auto)
+    TD_PID* td = reinterpret_cast<TD_PID*>(telemetry_data_ptr); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast,hicpp-use-auto,modernize-use-auto)
 
     td->id = id;
     td->type = TD_PID::TYPE;
     td->len = sizeof(TD_PID);
-    td->subType = 0;
-    td->sequenceNumber = static_cast<uint8_t>(sequenceNumber);
+    td->sub_type = 0;
+    td->sequence_number = static_cast<uint8_t>(sequence_number);
 
-    const uint8_t pidCount =std::min(static_cast<uint8_t>(TD_PID::MAX_PID_COUNT), static_cast<uint8_t>(vehicleController.get_pid_count()));
-    td->data.pidCount = pidCount;
-    td->data.pidProfile = pidProfile;
-    td->data.vehicleType = static_cast<uint8_t>(vehicleController.get_type());
-    td->data.controlMode = controlMode;
+    const uint8_t pid_count =std::min(static_cast<uint8_t>(TD_PID::MAX_PID_COUNT), static_cast<uint8_t>(vehicle_controller.get_pid_count()));
+    td->data.pid_count = pid_count;
+    td->data.pid_profile = pid_profile;
+    td->data.vehicle_type = static_cast<uint8_t>(vehicle_controller.get_type());
+    td->data.control_mode = control_mode;
 
     td->data.f0 = f0; // general purpose value f0 used for pitchBalanceAngleDegrees in self balancing robots
     td->data.f1 = f1;
 
-    for (uint8_t ii = 0; ii < pidCount; ++ii) {
-        const VehicleControllerBase::PIDF_uint16_t pid = vehicleController.get_pid_msp(ii);
+    for (uint8_t ii = 0; ii < pid_count; ++ii) {
+        const VehicleControllerBase::PIDF_uint16_t pid = vehicle_controller.get_pid_msp(ii);
         td->data.pids[ii].kp = pid.kp;
         td->data.pids[ii].ki = pid.ki;
         td->data.pids[ii].kd = pid.kd;
@@ -165,25 +165,25 @@ size_t packTelemetryData_PID(uint8_t* telemetryDataPtr, uint32_t id, uint32_t se
 /*!
 Packs the VehicleController PID telemetry data into a TD_PID_OUTPUTS packet. Returns the length of the packet.
 */
-size_t packTelemetryData_PID_Outputs(uint8_t* telemetryDataPtr, uint32_t id, uint32_t sequenceNumber, const VehicleControllerBase& vehicleController, uint8_t pidProfile, uint8_t controlMode)
+size_t pack_telemetry_data_pid_outputs(uint8_t* telemetry_data_ptr, uint32_t id, uint32_t sequence_number, const VehicleControllerBase& vehicle_controller, uint8_t pid_profile, uint8_t control_mode)
 {
-    TD_PID_OUTPUTS* td = reinterpret_cast<TD_PID_OUTPUTS*>(telemetryDataPtr); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast,hicpp-use-auto,modernize-use-auto)
+    TD_PID_OUTPUTS* td = reinterpret_cast<TD_PID_OUTPUTS*>(telemetry_data_ptr); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast,hicpp-use-auto,modernize-use-auto)
 
     td->id = id;
     td->type = TD_PID_OUTPUTS::TYPE;
     td->len = sizeof(TD_PID_OUTPUTS);
-    td->subType = 0;
-    td->sequenceNumber = static_cast<uint8_t>(sequenceNumber);
+    td->sub_type = 0;
+    td->sequence_number = static_cast<uint8_t>(sequence_number);
 
-    const uint8_t pidCount =std::min(static_cast<uint8_t>(TD_PID_OUTPUTS::MAX_PID_COUNT), static_cast<uint8_t>(vehicleController.get_pid_count()));
-    td->data.pidCount = pidCount;
-    td->data.pidProfile = pidProfile;
-    td->data.vehicleType = static_cast<uint8_t>(vehicleController.get_type()),
-    td->data.controlMode = controlMode;
+    const uint8_t pid_count =std::min(static_cast<uint8_t>(TD_PID_OUTPUTS::MAX_PID_COUNT), static_cast<uint8_t>(vehicle_controller.get_pid_count()));
+    td->data.pid_count = pid_count;
+    td->data.pid_profile = pid_profile;
+    td->data.vehicle_type = static_cast<uint8_t>(vehicle_controller.get_type()),
+    td->data.control_mode = control_mode;
 
-    for (uint8_t ii = 0; ii < pidCount; ++ii) {
-        td->data.setpoints[ii] = vehicleController.get_pid_setpoint(ii);
-        const VehicleControllerBase::PIDF_error_t error = vehicleController.get_pid_error(ii);
+    for (uint8_t ii = 0; ii < pid_count; ++ii) {
+        td->data.setpoints[ii] = vehicle_controller.get_pid_setpoint(ii);
+        const VehicleControllerBase::PIDF_error_t error = vehicle_controller.get_pid_error(ii);
         td->data.errors[ii].P = error.P;
         td->data.errors[ii].I = error.I;
         td->data.errors[ii].D = error.D;

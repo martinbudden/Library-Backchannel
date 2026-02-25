@@ -3,41 +3,41 @@
 
 #if defined(LIBRARY_RECEIVER_USE_ESPNOW)
 
-BackchannelTransceiverESPNOW::BackchannelTransceiverESPNOW(
-        EspnowTransceiver& espnowTransceiver,
-        const uint8_t* backchannelMacAddress
+BackchannelTransceiverEspnow::BackchannelTransceiverEspnow(
+        EspnowTransceiver& espnow_transceiver,
+        const uint8_t* backchannel_mac_address
     ) :
-    _espnow_transceiver(espnowTransceiver),
-    _received_data(_receivedDataBuffer, sizeof(_receivedDataBuffer))
+    _espnow_transceiver(espnow_transceiver),
+    _received_data(_received_data_buffer, sizeof(_received_data_buffer))
 {
-    static_assert(sizeof(_transmitDataBuffer) >= ESP_NOW_MAX_DATA_LEN && "transmit buffer too small");
-    static_assert(sizeof(_receivedDataBuffer) >= ESP_NOW_MAX_DATA_LEN && "receive buffer too small");
+    static_assert(sizeof(_transmit_data_buffer) >= ESP_NOW_MAX_DATA_LEN && "transmit buffer too small");
+    static_assert(sizeof(_received_data_buffer) >= ESP_NOW_MAX_DATA_LEN && "receive buffer too small");
 
-    _peer_data.receivedDataPtr = &_received_data;
-    _espnow_transceiver.add_secondary_peer(_received_data, backchannelMacAddress);
+    _peer_data.received_data_ptr = &_received_data;
+    _espnow_transceiver.add_secondary_peer(_received_data, backchannel_mac_address);
 }
 
-void BackchannelTransceiverESPNOW::WAIT_FOR_DATA_RECEIVED()
+void BackchannelTransceiverEspnow::WAIT_FOR_DATA_RECEIVED()
 {
     _espnow_transceiver.WAIT_FOR_SECONDARY_DATA_RECEIVED();
 }
 
-int BackchannelTransceiverESPNOW::sendData(const uint8_t* data, size_t len) const
+int BackchannelTransceiverEspnow::send_data(const uint8_t* data, size_t len) const
 {
     return _espnow_transceiver.send_data_secondary(data, len);
 }
 
-size_t BackchannelTransceiverESPNOW::getReceivedDataLength() const
+size_t BackchannelTransceiverEspnow::get_received_data_length() const
 {
     return _received_data.len;
 }
 
-void BackchannelTransceiverESPNOW::setReceivedDataLengthToZero()
+void BackchannelTransceiverEspnow::set_received_data_length_to_zero()
 {
     _received_data.len = 0;
 }
 
-uint32_t BackchannelTransceiverESPNOW::get_tick_count_delta_and_reset()
+uint32_t BackchannelTransceiverEspnow::get_tick_count_delta_and_reset()
 {
     return _espnow_transceiver.get_tick_count_delta_and_reset();
 }
