@@ -24,7 +24,7 @@ void BackchannelTask::loop()
 {
     // calculate _tick_count_delta to get actual deltaT value, since we may have been delayed for more than task_interval_ticks
 #if defined(FRAMEWORK_USE_FREERTOS)
-    const Tick_type_t tick_count = xTaskGetTickCount();
+    const TickType_t tick_count = xTaskGetTickCount();
 #else
     const uint32_t tick_count = time_ms();
 #endif
@@ -54,7 +54,7 @@ Task function for the BackchannelTask.
     while (true) {
         // delay until the end of the next task_interval_ticks
 #if (tskKERNEL_VERSION_MAJOR > 10) || ((tskKERNEL_VERSION_MAJOR == 10) && (tskKERNEL_VERSION_MINOR >= 5))
-            const Base_type_t was_delayed = xTaskDelayUntil(&_previous_wake_time_ticks, task_interval_ticks);
+            const BaseType_t was_delayed = xTaskDelayUntil(&_previous_wake_time_ticks, task_interval_ticks);
             if (was_delayed) {
                 _was_delayed = true;
             }
