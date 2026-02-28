@@ -117,7 +117,7 @@ NOTE: enough space is reserved for a full-size MSP packet, this is more than
 can be accommodated in an ESP_NOW packet, so size payload_size must be checked
 before the packet is sent over ESP_NOW.
 */
-struct CommandPacketMSP {
+struct CommandPacketMsp {
     enum { TYPE = 36 }; // '$'
     uint32_t id;
 

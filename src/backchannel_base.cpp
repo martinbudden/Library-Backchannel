@@ -121,57 +121,15 @@ bool BackchannelBase::send_packet(backchannel_parameter_group_t& pg, uint8_t sub
     (void)sub_command;
 
     switch (_request_type) {
-    case CommandPacketRequestData::NO_REQUEST: {
-        return false;
-    }
     case CommandPacketRequestData::REQUEST_STOP_SENDING_DATA: {
         // send a minimal packet so the client can reset its screen
         const size_t len = pack_telemetry_data_minimal(_transmit_data_buffer_ptr, _telemetry_id, _sequence_number);
         send_data(_transmit_data_buffer_ptr, len);
         // set _request_type to NO_REQUEST so no further data sent
         _request_type = CommandPacketRequestData::NO_REQUEST;
-        break;
+        return true;
     }
-#if false
-    case CommandPacketRequestData::REQUEST_TASK_INTERVAL_DATA: {
-        const size_t len = pack_telemetry_data_task_intervals(_transmit_data_buffer_ptr, _telemetry_id, _sequence_number,
-            *_ahrs.get_task(),
-            *_vehicle_controller.get_task(),
-            _main_task ?  _main_task->get_tick_count_delta() : 0,
-            _backchannel_transceiver.get_tick_count_delta_and_reset()
-        );
-        //Serial.printf("tiLen:%d\r\n", len);
-        send_data(_transmit_data_buffer_ptr, len);
-        break;
-    }
-    case CommandPacketRequestData::REQUEST_TASK_INTERVAL_EXTENDED_DATA: {
-        const size_t len = pack_telemetry_data_task_intervals_extended(_transmit_data_buffer_ptr, _telemetry_id, _sequence_number,
-            _ahrs,
-            _vehicle_controller,
-            _main_task ? _main_task->get_tick_count_delta() : 0,
-            _backchannel_transceiver.get_tick_count_delta_and_reset(),
-            static_cast<uint32_t>(_receiver.get_dropped_packet_count_delta())
-        );
-        //Serial.printf("tiLen:%d\r\n", len);
-        send_data(_transmit_data_buffer_ptr, len);
-        break;
-    }
-    case CommandPacketRequestData::REQUEST_AHRS_DATA: {
-        const ahrs_data_t& ahrs_data {};
-        const size_t len = pack_telemetry_data_ahrs(_transmit_data_buffer_ptr, _telemetry_id, _sequence_number, _ahrs, ahrs_data);
-        //Serial.printf("ahrsLen:%d\r\n", len);
-        send_data(_transmit_data_buffer_ptr, len);
-        break;
-    }
-    case CommandPacketRequestData::REQUEST_RECEIVER_DATA: {
-        const size_t len = pack_telemetry_data_receiver(_transmit_data_buffer_ptr, _telemetry_id, _sequence_number, _receiver);
-        //Serial.printf("receiverLen:%d\r\n", len);
-        send_data(_transmit_data_buffer_ptr, len);
-        break;
-    }
-#endif
     default:
         return false;
     } // end switch
-    return true;
 }

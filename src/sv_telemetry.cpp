@@ -147,7 +147,7 @@ size_t pack_telemetry_data_pid(uint8_t* telemetry_data_ptr, uint32_t id, uint32_
     td->data.vehicle_type = static_cast<uint8_t>(vehicle_controller.get_type());
     td->data.control_mode = control_mode;
 
-    td->data.f0 = f0; // general purpose value f0 used for pitchBalanceAngleDegrees in self balancing robots
+    td->data.f0 = f0; // general purpose value f0 used for pitch_balance_angle_degrees in self balancing robots
     td->data.f1 = f1;
 
     for (uint8_t ii = 0; ii < pid_count; ++ii) {

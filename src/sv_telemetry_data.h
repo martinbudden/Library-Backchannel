@@ -141,7 +141,7 @@ struct TD_PID {
         uint8_t vehicle_type;
         uint8_t control_mode;
         // general use parameters
-        float f0; // typically used for pitchBalanceAngleDegrees
+        float f0; // typically used for pitch_balance_angle_degrees
         float f1;
         std::array<PIDSK_t, MAX_PID_COUNT> pids;
     };
@@ -183,7 +183,7 @@ struct TD_PID_EXTENDED {
         uint8_t vehicle_type;
         uint8_t control_mode;
         // general use parameters
-        float f0; // typically used for pitchBalanceAngleDegrees
+        float f0; // typically used for pitch_balance_angle_degrees
         float f1;
         float f2;
         float f3;
@@ -432,7 +432,7 @@ struct motor_pair_controller_telemetry_t {
     float pitch_angle_output {0}; //!< pitch output value calculated by PID
     float speed_output {0}; //!< speed output value calculated by PID
     float position_output {0}; //!< position output value calculated by PID
-    float yawRate_output {0}; //!< yawRate output value calculated by PID
+    float yaw_rate_output {0}; //!< yaw_rate output value calculated by PID
 
     struct pidsk_error_t {
         float P;
@@ -443,7 +443,7 @@ struct motor_pair_controller_telemetry_t {
     };
     pidsk_error_t pitch_error {0, 0, 0, 0, 0}; //!< P, I, D, F, and S errors calculated in pitch PID update
     pidsk_error_t speed_error {0, 0, 0, 0, 0}; //!< P, I, D, F, and S errors calculated in speed PID update
-    pidsk_error_t position_error {0, 0, 0, 0, 0}; //!< P, I, D, F, and S errors calculated in yawRate PID update
+    pidsk_error_t position_error {0, 0, 0, 0, 0}; //!< P, I, D, F, and S errors calculated in yaw_rate PID update
 };
 
 /*!
@@ -491,7 +491,7 @@ struct TD_SBR_PID {
     };
     struct data_t {
         std::array<SPID_t, PID_COUNT> spids;
-        float pitchBalanceAngleDegrees;
+        float pitch_balance_angle_degrees;
     };
     data_t data {};
 };

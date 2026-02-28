@@ -40,7 +40,7 @@ void test_backchannel()
     static_assert(sizeof(CommandPacketSetFilter) <= MAX_COMMAND_PACKET_SIZE);
 
     enum { MAX_COMMAND_PACKET_MSP_SIZE = 260 };
-    static_assert(sizeof(CommandPacketMSP) <= MAX_COMMAND_PACKET_MSP_SIZE);
+    static_assert(sizeof(CommandPacketMsp) <= MAX_COMMAND_PACKET_MSP_SIZE);
 }
 
 void test_sv_telemetry_data()
