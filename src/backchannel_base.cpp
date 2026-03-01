@@ -52,7 +52,7 @@ Four types of packets may be received:
 4. A request to set an IMU offset value. In this case set the offset value, but don't send back an TD_AHRS packet for display,
    since the request will have come from within
 */
-bool BackchannelBase::processed_received_packet(backchannel_parameter_group_t& pg)
+bool BackchannelBase::processed_received_packet(backchannel_context_t& pg)
 {
     //Serial.printf("processed_received_packet\r\n");
     const size_t received_data_length = _backchannel_transceiver.get_received_data_length();
@@ -95,7 +95,7 @@ bool BackchannelBase::processed_received_packet(backchannel_parameter_group_t& p
     return false;
 }
 
-bool BackchannelBase::packet_request_data(backchannel_parameter_group_t& pg, const CommandPacketRequestData& packet)
+bool BackchannelBase::packet_request_data(backchannel_context_t& pg, const CommandPacketRequestData& packet)
 {
 #if defined(USE_DEBUG_PRINTF_BACKCHANNEL)
     Serial.printf("BSV packet_request_data packet type:%d, len:%d, request_type:%d, value_type:%d\r\n", packet.type, packet.len, packet.request_type, packet.value_type);
@@ -110,7 +110,7 @@ Called from within main task function.
 
 Once _request_type has been set, this will continue to send packets until _request_type is set to NO_REQUEST
 */
-bool BackchannelBase::send_packet(backchannel_parameter_group_t& pg, uint8_t sub_command)
+bool BackchannelBase::send_packet(backchannel_context_t& pg, uint8_t sub_command)
 {
 #if defined(USE_DEBUG_PRINTF_BACKCHANNEL)
     if (_request_type != CommandPacketRequestData::NO_REQUEST) {
