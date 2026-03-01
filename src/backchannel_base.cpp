@@ -52,7 +52,7 @@ Four types of packets may be received:
 4. A request to set an IMU offset value. In this case set the offset value, but don't send back an TD_AHRS packet for display,
    since the request will have come from within
 */
-bool BackchannelBase::processed_received_packet(backchannel_context_t& pg)
+bool BackchannelBase::processed_received_packet(backchannel_context_t& ctx)
 {
     //Serial.printf("processed_received_packet\r\n");
     const size_t received_data_length = _backchannel_transceiver.get_received_data_length();
@@ -73,16 +73,16 @@ bool BackchannelBase::processed_received_packet(backchannel_context_t& pg)
             //Serial.printf("Backchannel::update id:%x, type:%d, len:%d value:%d\r\n", controlPacket->id, controlPacket->type, controlPacket->len, controlPacket->value);
             switch (controlPacket->type) {
             case CommandPacketControl::TYPE:
-                packet_control(pg, *reinterpret_cast<const CommandPacketControl*>(_received_data_buffer_ptr));
+                packet_control(ctx, *reinterpret_cast<const CommandPacketControl*>(_received_data_buffer_ptr));
                 return true;
             case CommandPacketRequestData::TYPE:
-                packet_request_data(pg, *reinterpret_cast<const CommandPacketRequestData*>(_received_data_buffer_ptr));
+                packet_request_data(ctx, *reinterpret_cast<const CommandPacketRequestData*>(_received_data_buffer_ptr));
                 return true;
             case CommandPacketSetPid::TYPE:
-                packet_set_pid(pg, *reinterpret_cast<const CommandPacketSetPid*>(_received_data_buffer_ptr));
+                packet_set_pid(ctx, *reinterpret_cast<const CommandPacketSetPid*>(_received_data_buffer_ptr));
                 return true;
             case CommandPacketSetOffset::TYPE:
-                packet_set_offset(pg, *reinterpret_cast<const CommandPacketSetOffset*>(_received_data_buffer_ptr));
+                packet_set_offset(ctx, *reinterpret_cast<const CommandPacketSetOffset*>(_received_data_buffer_ptr));
                 return true;
             default:
                 // do nothing
@@ -95,13 +95,13 @@ bool BackchannelBase::processed_received_packet(backchannel_context_t& pg)
     return false;
 }
 
-bool BackchannelBase::packet_request_data(backchannel_context_t& pg, const CommandPacketRequestData& packet)
+bool BackchannelBase::packet_request_data(backchannel_context_t& ctx, const CommandPacketRequestData& packet)
 {
 #if defined(USE_DEBUG_PRINTF_BACKCHANNEL)
     Serial.printf("BSV packet_request_data packet type:%d, len:%d, request_type:%d, value_type:%d\r\n", packet.type, packet.len, packet.request_type, packet.value_type);
 #endif
     _request_type = packet.request_type;
-    send_packet(pg, packet.value_type);
+    send_packet(ctx, packet.value_type);
     return true;
 }
 
@@ -110,14 +110,14 @@ Called from within main task function.
 
 Once _request_type has been set, this will continue to send packets until _request_type is set to NO_REQUEST
 */
-bool BackchannelBase::send_packet(backchannel_context_t& pg, uint8_t sub_command)
+bool BackchannelBase::send_packet(backchannel_context_t& ctx, uint8_t sub_command)
 {
 #if defined(USE_DEBUG_PRINTF_BACKCHANNEL)
     if (_request_type != CommandPacketRequestData::NO_REQUEST) {
         //Serial.printf("BSV send_packet request_type:%d, sub_command:%d\r\n", _request_type, sub_command);
     }
 #endif
-    (void)pg;
+    (void)ctx;
     (void)sub_command;
 
     switch (_request_type) {

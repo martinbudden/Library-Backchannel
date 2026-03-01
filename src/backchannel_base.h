@@ -19,13 +19,13 @@ public:
     int send_data(const uint8_t* data, size_t len) const;
     static uint32_t id_from_mac_address(const uint8_t* mac_address);
 
-    virtual bool processed_received_packet(backchannel_context_t& pg);
-    virtual bool send_packet(backchannel_context_t& pg, uint8_t sub_command);
-    bool send_packet(backchannel_context_t& pg) { return send_packet(pg, 0); }
-    virtual bool packet_request_data(backchannel_context_t& pg, const CommandPacketRequestData& packet);
-    virtual bool packet_set_offset(backchannel_context_t& pg, const CommandPacketSetOffset& packet) = 0;
-    virtual bool packet_control(backchannel_context_t& pg, const CommandPacketControl& packet) = 0;
-    virtual bool packet_set_pid(backchannel_context_t& pg, const CommandPacketSetPid& packet) = 0;
+    virtual bool processed_received_packet(backchannel_context_t& ctx);
+    virtual bool send_packet(backchannel_context_t& ctx, uint8_t sub_command);
+    bool send_packet(backchannel_context_t& ctx) { return send_packet(ctx, 0); }
+    virtual bool packet_request_data(backchannel_context_t& ctx, const CommandPacketRequestData& packet);
+    virtual bool packet_set_offset(backchannel_context_t& ctx, const CommandPacketSetOffset& packet) = 0;
+    virtual bool packet_control(backchannel_context_t& ctx, const CommandPacketControl& packet) = 0;
+    virtual bool packet_set_pid(backchannel_context_t& ctx, const CommandPacketSetPid& packet) = 0;
 
 protected:
     BackchannelTransceiverBase& _backchannel_transceiver;
