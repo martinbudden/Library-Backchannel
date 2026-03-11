@@ -7,6 +7,7 @@
         "Budden",
         "bugprone",
         "clangtidy",
+        "cppcheck",
         "cppcoreguidelines",
         "ESPIDF",
         "ESPNOW",
@@ -22,8 +23,10 @@
         "quadcopters",
         "suppr",
         "unflags",
+        "Waggressive",
         "Wattributes",
         "Wcast",
+        "Wconversion",
         "Wdeprecated",
         "Wdisabled",
         "Wdouble",
@@ -44,6 +47,7 @@
         "Wsign",
         "Wstrict",
         "Wtrampolines",
+        "Wunreachable",
         "Wunsafe",
         "Wunused"
     ]

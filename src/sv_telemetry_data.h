@@ -212,11 +212,11 @@ struct TD_PID_OUTPUTS {
     uint16_t flags {0};
 
     struct pidsk_error_t {
-        float P;
-        float I;
-        float D;
-        float S;
-        float K;
+        float p;
+        float i;
+        float d;
+        float s;
+        float k;
     };
     struct data_t {
         uint8_t pid_count;

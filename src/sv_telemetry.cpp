@@ -4,6 +4,7 @@
 #include "sv_telemetry_data.h"
 
 #include <ahrs.h>
+#include <pid_controller.h>
 #include <task_base.h>
 #include <vehicle_controller_base.h>
 
@@ -151,7 +152,7 @@ size_t pack_telemetry_data_pid(uint8_t* telemetry_data_ptr, uint32_t id, uint32_
     td->data.f1 = f1;
 
     for (uint8_t ii = 0; ii < pid_count; ++ii) {
-        const VehicleControllerBase::PIDF_uint16_t pid = vehicle_controller.get_pid_msp(ii);
+        const pid_constants_uint16_t pid = vehicle_controller.get_pid_msp(ii);
         td->data.pids[ii].kp = pid.kp;
         td->data.pids[ii].ki = pid.ki;
         td->data.pids[ii].kd = pid.kd;
@@ -183,12 +184,12 @@ size_t pack_telemetry_data_pid_outputs(uint8_t* telemetry_data_ptr, uint32_t id,
 
     for (uint8_t ii = 0; ii < pid_count; ++ii) {
         td->data.setpoints[ii] = vehicle_controller.get_pid_setpoint(ii);
-        const VehicleControllerBase::PIDF_error_t error = vehicle_controller.get_pid_error(ii);
-        td->data.errors[ii].P = error.P;
-        td->data.errors[ii].I = error.I;
-        td->data.errors[ii].D = error.D;
-        td->data.errors[ii].S = error.S;
-        td->data.errors[ii].K = error.K;
+        const pid_error_t error = vehicle_controller.get_pid_error(ii);
+        td->data.errors[ii].p = error.p;
+        td->data.errors[ii].i = error.i;
+        td->data.errors[ii].d = error.d;
+        td->data.errors[ii].s = error.s;
+        td->data.errors[ii].k = error.k;
     }
 
     return td->len;
