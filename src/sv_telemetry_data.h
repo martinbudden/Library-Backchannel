@@ -424,7 +424,7 @@ struct motor_pair_controller_telemetry_t {
     float motor_max_speed_dps {0};
     float speed_left_dps {0}; //!< rotation speed of left motor, degrees per second
     float speed_right_dps {0}; //!< rotation speed of right motor, degrees per second
-    float speed_dps_Filtered {0}; //!< speed calculated as the average of speed_left_dps and speed_right_dps, then filtered
+    float speed_dps_filtered {0}; //!< speed calculated as the average of speed_left_dps and speed_right_dps, then filtered
 
     float power_left {0}; //!< power value sent to left motor
     float power_right {0}; //!< power value sent to right motor
