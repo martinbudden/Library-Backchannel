@@ -4,6 +4,7 @@
 #include "sv_telemetry_data.h"
 
 #include <ahrs.h>
+#include <imu_base.h>
 #include <pid_controller.h>
 #include <task_base.h>
 #include <vehicle_controller_base.h>
@@ -114,8 +115,8 @@ size_t pack_telemetry_data_ahrs(uint8_t* telemetry_data_ptr, uint32_t id, uint32
         .yaw = 0.0F,
         .gyro_rps = ahrs_data.acc_gyro_rps.gyro_rps,
         .acc = ahrs_data.acc_gyro_rps.acc,
-        .gyro_offset = ahrs.get_gyro_offset_mapped(),
-        .acc_offset = ahrs.get_acc_offset_mapped(),
+        .gyro_offset = ahrs.get_imu().get_gyro_offset_mapped(),
+        .acc_offset = ahrs.get_imu().get_acc_offset_mapped(),
     };
 
     td->task_interval_ticks = 0; // to be filled in by the caller
